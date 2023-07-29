@@ -3,10 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:proyecto_tesis/api/user.dart';
 import 'package:proyecto_tesis/bottomNavigation.dart';
+import 'package:proyecto_tesis/notification.dart';
 import 'package:proyecto_tesis/register.dart';
-// import 'register.dart';
 import 'globals.dart' as globals;
-// import 'home.dart';
 import 'package:proyecto_tesis/api/service.dart';
 
 class login extends StatefulWidget {
@@ -145,6 +144,25 @@ class _loginState extends State<login> {
                     ),),
                   )
                 ],
+              ),
+
+              Container(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                  ),
+                  onPressed: () {
+                    NotificationService().showNotification(title: 'Sample',body: 'IT WORKS!');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Text("PRUEBA NOTIF",style:TextStyle(
+                      //fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.black
+                    )),
+                  ),
+                ),
               ),
 
             ],
