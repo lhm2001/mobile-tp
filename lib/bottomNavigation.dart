@@ -27,8 +27,6 @@ class _bottomNavigationState extends State<bottomNavigation> {
   ];
 
 
-  //late List<Widget> _paginas;
-
   @override
   void initState() {
     super.initState();
@@ -60,9 +58,9 @@ class _bottomNavigationState extends State<bottomNavigation> {
         },
         currentIndex: _paginaActual,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home),label:"Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.search),label:"Buscar"),
-          BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline),label:"Agregar Receta"),
+          BottomNavigationBarItem(icon: Icon(Icons.apps),label:"Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.add_a_photo),label:"Buscar"),
+          BottomNavigationBarItem(icon: Icon(Icons.import_contacts),label:"Agregar Receta"),
           BottomNavigationBarItem(icon: Icon(Icons.person),label:"Mi Cuenta")
         ],
 
