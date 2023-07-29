@@ -54,7 +54,7 @@ class _registerState extends State<register> {
         userId = jsonResponse["idUser"];
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Se registro correctamente"),
-          backgroundColor: Colors.teal,
+          backgroundColor: Color(0xFF00807E),
         ));
       }
     } else {
@@ -184,7 +184,7 @@ class _registerState extends State<register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal,
+      backgroundColor:Color(0xFF00807E),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

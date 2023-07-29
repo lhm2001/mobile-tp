@@ -15,7 +15,7 @@ class _PreventiveInformationState extends State<PreventiveInformation> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Información Preventiva",style: TextStyle(color: Colors.white),), // Nombre de la página que puedes cambiar dinámicamente según la página actual.
-        backgroundColor: Colors.teal,
+        backgroundColor: Color(0xFF00807E),
         automaticallyImplyLeading: false,
       ),
       backgroundColor: Colors.white,
@@ -26,21 +26,10 @@ class _PreventiveInformationState extends State<PreventiveInformation> {
             child: Column(
               //mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'INFORMACIÓN PREVENTIVA',
-                  style: TextStyle(
-                    fontSize: 23,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 40,
-                ),
                 Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.teal,
+                    color: Color(0xFFB1D8D7),
                     borderRadius: BorderRadius.circular(15),
                   ),
 
@@ -50,7 +39,7 @@ class _PreventiveInformationState extends State<PreventiveInformation> {
                         '1. ¿Qué es un nevo displásico?',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
 
                     ),
@@ -63,7 +52,7 @@ class _PreventiveInformationState extends State<PreventiveInformation> {
                 Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.teal,
+                    color: Color(0xFFB1D8D7),
                     borderRadius: BorderRadius.circular(15),
                   ),
 
@@ -73,7 +62,7 @@ class _PreventiveInformationState extends State<PreventiveInformation> {
                         '2. ¿Qué es el melanoma?',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
 
@@ -86,7 +75,7 @@ class _PreventiveInformationState extends State<PreventiveInformation> {
                 Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.teal,
+                    color:Color(0xFFB1D8D7),
                     borderRadius: BorderRadius.circular(15),
                   ),
 
@@ -96,7 +85,7 @@ class _PreventiveInformationState extends State<PreventiveInformation> {
                         '3. ¿Este diagnóstico reemplaza el de un doctor?',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
 
@@ -109,7 +98,7 @@ class _PreventiveInformationState extends State<PreventiveInformation> {
                 Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.teal,
+                    color: Color(0xFFB1D8D7),
                     borderRadius: BorderRadius.circular(15),
                   ),
                     child: Padding(
@@ -118,7 +107,7 @@ class _PreventiveInformationState extends State<PreventiveInformation> {
                         '4. ¿Cómo funciona el diagnóstico?',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                     ),

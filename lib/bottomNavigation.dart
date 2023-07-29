@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:proyecto_tesis/login.dart';
+import 'package:proyecto_tesis/myAccount.dart';
 import 'package:proyecto_tesis/register.dart';
 import 'package:proyecto_tesis/myCategories.dart';
 import 'package:proyecto_tesis/preventiveInformation.dart';
@@ -23,7 +24,7 @@ class _bottomNavigationState extends State<bottomNavigation> {
     myCategories(),
     register(),
     PreventiveInformation(),
-    globals.isLoggedIn ? PreventiveInformation() : login(),
+    globals.isLoggedIn ? myAccount() : login(),
   ];
 
 
@@ -37,7 +38,7 @@ class _bottomNavigationState extends State<bottomNavigation> {
       myCategories(),
       register(),
       PreventiveInformation(),
-      globals.isLoggedIn ? PreventiveInformation() : login(),
+      globals.isLoggedIn ? myAccount() : login(),
     ];
 
   }

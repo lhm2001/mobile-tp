@@ -22,7 +22,7 @@ class myConsultations extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Mis Consultas",style: TextStyle(color: Colors.white),), // Nombre de la página que puedes cambiar dinámicamente según la página actual.
-        backgroundColor: Colors.teal,
+        backgroundColor: Color(0xFF00807E),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(

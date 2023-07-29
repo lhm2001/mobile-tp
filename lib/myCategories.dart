@@ -23,7 +23,7 @@ class myCategories extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Mis Lunares",style: TextStyle(color: Colors.white),), // Nombre de la página que puedes cambiar dinámicamente según la página actual.
-        backgroundColor: Colors.teal,
+        backgroundColor: Color(0xFF00807E),
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -51,7 +51,7 @@ class myCategories extends StatelessWidget {
                                         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>myConsultations(categoryId: category.idCategory,categoryName:category.name)));
                                       },
                                       child: Card(
-                                        color: Colors.teal,
+                                        color: Color(0xFFB1D8D7),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Row(
@@ -65,8 +65,8 @@ class myCategories extends StatelessWidget {
                                               Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(category.name.toString(),style: TextStyle(color: Colors.white,fontSize: 12),),
-                                                  Text('Última foto tomada hace ',style: TextStyle(color: Colors.white,fontSize: 12),),
+                                                  Text(category.name.toString(),style: TextStyle(color: Colors.black,fontSize: 12),),
+                                                  Text('Última foto tomada hace ',style: TextStyle(color: Colors.black,fontSize: 12),),
                                                 ],
                                               )
                                             ],

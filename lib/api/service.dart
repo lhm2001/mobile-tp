@@ -106,4 +106,25 @@ class service{
       throw Exception('Failed to load consultation');
     }
   }
+
+  static Future<User> getUserById(userId) async {
+
+    log("service");
+
+    final rspta=await http.get(Uri.parse('${globals.url}users/$userId'));
+
+    log("rspta");
+
+    if(rspta.statusCode==200){
+      log("200");
+      final rsptaJson=json.decode(rspta.body);
+      final user=User.objJson(rsptaJson);
+      log("user: $user");
+      return user;
+    }
+    else{
+      throw Exception('Failed to load user');
+    }
+    // return <Profile>[];
+  }
 }
