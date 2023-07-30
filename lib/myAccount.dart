@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:proyecto_tesis/api/consultation.dart';
 import 'package:proyecto_tesis/api/service.dart';
 import 'package:proyecto_tesis/login.dart';
+import 'package:proyecto_tesis/myNotifications.dart';
 import 'package:proyecto_tesis/myProfile.dart';
 import 'package:proyecto_tesis/preventiveInformation.dart';
 import 'globals.dart' as globals;
@@ -42,7 +43,7 @@ class myAccount extends StatelessWidget {
                   case 1:
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => myProfile()),
+                      MaterialPageRoute(builder: (context) => myNotifications()),
                     );
                     break;
                   case 2:

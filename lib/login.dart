@@ -1,10 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:proyecto_tesis/api/user.dart';
 import 'package:proyecto_tesis/bottomNavigation.dart';
 import 'package:proyecto_tesis/notification.dart';
 import 'package:proyecto_tesis/register.dart';
+import 'api/category.dart';
+import 'api/consultation.dart';
 import 'globals.dart' as globals;
 import 'package:proyecto_tesis/api/service.dart';
 
@@ -15,11 +18,35 @@ class login extends StatefulWidget {
   State<login> createState() => _loginState();
 }
 
+Future<void> fetchDataAndProcess() async {
+  try {
+    List<Category> categories = await service.getCategoriesByUserId(globals.userId);
+
+    for (Category category in categories) {
+      Consultation consultation = await service.getLastConsultationByCategoryId(category.idCategory);
+
+      if(consultation.createdDate != ''){
+
+        DateTime dateTime = DateTime.parse(DateFormat("dd/MM/yyyy HH:mm:ss").parse(consultation.createdDate).toString());
+
+        // Ajustar la fecha para que sea un mes después
+        dateTime = DateTime(dateTime.year, dateTime.month + 1, dateTime.day, 12, 0, 0);
+
+        NotificationService().scheduleNotification(id: category.idCategory,title: 'Scheduled Notification',body: 'Scheduled', scheduledNotificationDateTime: dateTime);
+
+      }
+
+
+    }
+  } catch (e) {
+    log('Error al obtener datos: $e');
+  }
+}
+
 class _loginState extends State<login> {
 
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
-  Future<User>? _futureAlbum;
   late int _user;
 
   @override
@@ -102,6 +129,7 @@ class _loginState extends State<login> {
                               globals.userId=_user;
                               globals.isLoggedIn = true;
                               globals.idNavigation = 0;
+                              fetchDataAndProcess();
                               Navigator.of(context).push(MaterialPageRoute(builder: (context)=>bottomNavigation()));
                             }
                             else{
@@ -146,24 +174,7 @@ class _loginState extends State<login> {
                 ],
               ),
 
-              Container(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                  ),
-                  onPressed: () {
-                    NotificationService().showNotification(title: 'Sample',body: 'IT WORKS!');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Text("PRUEBA NOTIF",style:TextStyle(
-                      //fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.black
-                    )),
-                  ),
-                ),
-              ),
+
 
             ],
           ),

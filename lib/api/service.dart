@@ -107,6 +107,31 @@ class service{
     }
   }
 
+  static Future<Consultation> getLastConsultationByCategoryId(int categoryId) async{
+
+    final rspta=await http.get(Uri.parse('${globals.url}categories/$categoryId/consultations'));
+
+    if(rspta.statusCode==200){
+      final rsptaJson=json.decode(rspta.body);
+
+      if(rsptaJson.length>0){
+        final rsptaLast=rsptaJson[rsptaJson.length-1];
+        final recipe=Consultation.objJson(rsptaLast);
+
+        return recipe;
+      }
+      else{
+        return Consultation.empty();
+      }
+
+
+    }
+    else{
+      throw Exception('Failed to load consultation');
+    }
+  }
+
+
   static Future<User> getUserById(userId) async {
 
     log("service");
