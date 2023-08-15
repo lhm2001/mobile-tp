@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:proyecto_tesis/cameraConsultation.dart';
 import 'package:proyecto_tesis/login.dart';
 import 'package:proyecto_tesis/myAccount.dart';
 import 'package:proyecto_tesis/register.dart';
@@ -8,23 +9,23 @@ import 'package:proyecto_tesis/myCategories.dart';
 import 'package:proyecto_tesis/preventiveInformation.dart';
 import 'globals.dart' as globals;
 
-class bottomNavigation extends StatefulWidget {
-  const bottomNavigation({Key? key}) : super(key: key);
+class BottomNavigation extends StatefulWidget {
+  const BottomNavigation({Key? key}) : super(key: key);
 
   // int r;
 
   @override
-  State<bottomNavigation> createState() => _bottomNavigationState();
+  State<BottomNavigation> createState() => _BottomNavigationState();
 }
 
-class _bottomNavigationState extends State<bottomNavigation> {
+class _BottomNavigationState extends State<BottomNavigation> {
 
   int _paginaActual=0;
   List<Widget> _paginas =[
-    myCategories(),
-    register(),
-    PreventiveInformation(),
-    globals.isLoggedIn ? myAccount() : login(),
+    const MyCategories(),
+    const CameraConsultation(),
+    const PreventiveInformation(),
+    globals.isLoggedIn ? const MyAccount() : const Login(),
   ];
 
 
@@ -35,10 +36,10 @@ class _bottomNavigationState extends State<bottomNavigation> {
 
 
     _paginas =[
-      myCategories(),
-      register(),
-      PreventiveInformation(),
-      globals.isLoggedIn ? myAccount() : login(),
+      const MyCategories(),
+      const CameraConsultation(),
+      const PreventiveInformation(),
+      globals.isLoggedIn ? const MyAccount() : const Login(),
     ];
 
   }
@@ -58,7 +59,7 @@ class _bottomNavigationState extends State<bottomNavigation> {
           });
         },
         currentIndex: _paginaActual,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.apps),label:"Home"),
           BottomNavigationBarItem(icon: Icon(Icons.add_a_photo),label:"Buscar"),
           BottomNavigationBarItem(icon: Icon(Icons.import_contacts),label:"Agregar Receta"),

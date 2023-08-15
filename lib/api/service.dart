@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:proyecto_tesis/api/category.dart';
 import 'package:proyecto_tesis/api/consultation.dart';
@@ -8,7 +9,6 @@ import 'user.dart';
 import 'package:proyecto_tesis/globals.dart' as globals;
 import 'listCategory.dart';
 import 'listConsultation.dart';
-
 
 class service{
 
@@ -28,9 +28,10 @@ class service{
 
     if (response.statusCode == 200) {
       log('200');
-      log(response.body);
+      print('RB: ${response.body}');
 
       final data=Login.objJson(jsonDecode(response.body));
+      log('Data: $data');
 
       final userId= data.idUser;
 
@@ -39,6 +40,31 @@ class service{
       log('200 NO');
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
+      return 0;
+    }
+  }
+
+  static Future<int> validateEmail(String email) async {
+    String apiKey = '3156cd45c78f4ed5a7df37da0c83aa39';
+    String apiUrl = 'https://emailvalidation.abstractapi.com/v1/?api_key=$apiKey&email=$email';
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = json.decode(response.body);
+        if (data['deliverability'] == 'DELIVERABLE'
+            && double.parse(data['quality_score']) >= 0.8
+            && data['is_valid_format']['value'] == true
+            && data['is_disposable_email']['value'] == false) {
+          return 1;
+        } else {
+          return 0;
+        }
+      } else {
+        return 0;
+      }
+    } catch (error) {
       return 0;
     }
   }
@@ -131,7 +157,6 @@ class service{
     }
   }
 
-
   static Future<User> getUserById(userId) async {
 
     log("service");
@@ -152,4 +177,80 @@ class service{
     }
     // return <Profile>[];
   }
+
+  static Future<Category> createCategory(int userId, String name, BuildContext context) async {
+
+    final response = await http.post(
+
+      Uri.parse('${globals.url}users/$userId/categories'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'name': name
+      }),
+    );
+
+
+    if (response.statusCode == 201) {
+      final jsonResponse = json.decode(response.body);
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Se creó correctamente la categoría", style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.tealAccent,
+      ));
+
+      final data = Category.objJson(jsonResponse);
+
+      return data;
+    } else {
+      log('Code: ' + response.statusCode.toString() + ' Body: ' + response.body);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("No se creó correctamente la categoría", style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.redAccent,
+      ));
+      return Future.value(null);
+    }
+  }
+
+  static Future<Consultation> createConsultation(int categoryId, String photo, BuildContext context) async {
+
+    final response = await http.post(
+
+      Uri.parse('${globals.url}categories/$categoryId/consultations'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Connection': 'keep-alive',
+        'Accept-Encoding': 'gzip, deflate, br'
+      },
+      body: jsonEncode(<String, String>{
+        'photo': photo
+      }),
+    ).timeout(const Duration(seconds: 90)).catchError((error) {
+      print(error);
+    });
+
+
+    if (response.statusCode == 201) {
+      final jsonResponse = json.decode(response.body);
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Se creó correctamente la consulta", style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.tealAccent,
+      ));
+
+      final data = Consultation.objJson(jsonResponse);
+
+      return data;
+    } else {
+      log('200 NO');
+      print(response.body);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("No se creó correctamente la consulta", style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.redAccent,
+      ));
+      return Future.value(null);
+    }
+  }
+
 }

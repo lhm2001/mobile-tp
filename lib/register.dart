@@ -1,21 +1,22 @@
 import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:proyecto_tesis/api/service.dart';
 import 'bottomNavigation.dart';
 import 'login.dart';
 import 'package:http/http.dart' as http;
 import 'globals.dart' as globals;
 import 'package:image_picker/image_picker.dart';
+import 'package:sizer/sizer.dart';
 
-class register extends StatefulWidget {
-  const register({Key? key}) : super(key: key);
+class Register extends StatefulWidget {
+  const Register({Key? key}) : super(key: key);
 
   @override
-  State<register> createState() => _registerState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _registerState extends State<register> {
+class _RegisterState extends State<Register> {
 
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController lastNameController = new TextEditingController();
@@ -30,6 +31,9 @@ class _registerState extends State<register> {
   String img = "";
   int photo = 0;
   String base64string = "";
+
+  late int _validate;
+  bool validateAnswer = false;
 
   registerUser(String email, String password, String name, String lastName) async {
     var jsonResponse = null;
@@ -183,200 +187,240 @@ class _registerState extends State<register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor:Color(0xFF00807E),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 75),
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return Scaffold(
+          backgroundColor:const Color(0xFF00807E),
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
 
-            const Text('Crea tu cuenta',style: TextStyle(
-              //fontWeight: FontWeight.bold,
-              fontSize: 32, color: Colors.white,
-            ),),
+                SizedBox(height: 10.h),
 
-            const SizedBox(height: 50),
-
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  //borderRadius: BorderRadius.circular(15),
-                ),
-                child:Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextField(
-                    controller: nameController,
-                    keyboardType: TextInputType.name,
-                    decoration: const InputDecoration(
-                      border:InputBorder.none,
-                      hintText: 'Nombre',
-                    ),
+                Text('Crea tu cuenta',
+                  style: TextStyle(
+                    //fontWeight: FontWeight.bold,
+                    fontSize: 32.sp,
+                    color: Colors.white,
                   ),
                 ),
-              ),
-            ),
 
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  //borderRadius: BorderRadius.circular(15),
-                ),
-                child:Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextField(
-                    controller: lastNameController,
-                    keyboardType: TextInputType.text,
-                    decoration: const InputDecoration(
-                      border:InputBorder.none,
-                      hintText: 'Apellidos',
+                SizedBox(height: 5.h),
+
+                Padding(
+                  padding: EdgeInsets.all(2.5.h),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(15),
                     ),
-                  ),
-                ),
-              ),
-            ),
-
-            // Padding(
-            //   padding: const EdgeInsets.all(10.0),
-            //   child: InkWell(
-            //     onTap: () {
-            //       opciones(context);
-            //     },
-            //     child: Container(
-            //       padding: const EdgeInsets.only(bottom: 18, top: 18, left: 10, right: 10),
-            //       //color: Colors.brown[200],
-            //       color: Colors.white,
-            //       child: Row(
-            //         children: const [
-            //           Expanded(
-            //             child: Text('Adjuntar', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w100)),
-            //           ),
-            //           Icon(Icons.camera_alt, color: Colors.black)
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-
-            // if (photo == 1)
-            //   imagen == null ? const Center() : Padding(
-            //     padding: const EdgeInsets.all(10.0),
-            //     child: Image.file(imagen),
-            //   ),
-
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  //borderRadius: BorderRadius.circular(15),
-                ),
-                child:Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextField(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    //obscureText: true,
-                    decoration: const InputDecoration(
-                      border:InputBorder.none,
-                      hintText: 'Email',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  //borderRadius: BorderRadius.circular(15),
-                ),
-                child:Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextField(
-                    controller: passwordController,
-                    keyboardType: TextInputType.visiblePassword,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      border:InputBorder.none,
-                      hintText: 'Contraseña',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 30),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                        ),
-                        onPressed: () {
-                          //print('PHOTOOOOO ' + base64string);
-                          if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty && nameController.text.isNotEmpty && lastNameController.text.isNotEmpty){
-                            registerUser(emailController.text, passwordController.text, nameController.text , lastNameController.text);
-                            globals.isLoggedIn = true;
-                            globals.idNavigation = 0;
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>bottomNavigation()));
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content: Text("Revise los datos ingresados"),
-                              backgroundColor: Colors.brown,
-                            ));
-                          }
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.all(15),
-                          child: Text("Registrarse",style:TextStyle(
-                            //fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.black
-                          )),
+                    child:Padding(
+                      padding: EdgeInsets.all(1.h),
+                      child: TextField(
+                        controller: nameController,
+                        keyboardType: TextInputType.name,
+                        decoration: const InputDecoration(
+                          border:InputBorder.none,
+                          hintText: 'Nombre',
                         ),
                       ),
                     ),
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.all(2.5.h),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(15),
+                    ),
+                    child:Padding(
+                      padding: EdgeInsets.all(1.h),
+                      child: TextField(
+                        controller: lastNameController,
+                        keyboardType: TextInputType.text,
+                        decoration: const InputDecoration(
+                          border:InputBorder.none,
+                          hintText: 'Apellidos',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Padding(
+                //   padding: const EdgeInsets.all(10.0),
+                //   child: InkWell(
+                //     onTap: () {
+                //       opciones(context);
+                //     },
+                //     child: Container(
+                //       padding: const EdgeInsets.only(bottom: 18, top: 18, left: 10, right: 10),
+                //       //color: Colors.brown[200],
+                //       color: Colors.white,
+                //       child: Row(
+                //         children: const [
+                //           Expanded(
+                //             child: Text('Adjuntar', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w100)),
+                //           ),
+                //           Icon(Icons.camera_alt, color: Colors.black)
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
+
+                // if (photo == 1)
+                //   imagen == null ? const Center() : Padding(
+                //     padding: const EdgeInsets.all(10.0),
+                //     child: Image.file(imagen),
+                //   ),
+
+                Padding(
+                  padding: EdgeInsets.all(2.5.h),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(15),
+                    ),
+                    child:Padding(
+                      padding: EdgeInsets.all(1.h),
+                      child: TextField(
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        //obscureText: true,
+                        decoration: const InputDecoration(
+                          border:InputBorder.none,
+                          hintText: 'Correo electrónico',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.all(2.5.h),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(15),
+                    ),
+                    child:Padding(
+                      padding: EdgeInsets.all(1.h),
+                      child: TextField(
+                        controller: passwordController,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          border:InputBorder.none,
+                          hintText: 'Contraseña',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 2.5.h),
+
+                Padding(
+                  padding: EdgeInsets.all(1.h),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                            ),
+                            onPressed: () async {
+                              if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty && nameController.text.isNotEmpty && lastNameController.text.isNotEmpty){
+                                try {
+                                  _validate = await service.validateEmail(emailController.text);
+                                  setState(() {
+                                    _validate;
+                                  });
+
+                                  if (_validate == 1) {
+                                    registerUser(emailController.text, passwordController.text, nameController.text , lastNameController.text);
+                                    globals.isLoggedIn = true;
+                                    globals.idNavigation = 0;
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const BottomNavigation()));
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                      content: Text("No se logro validar el correo electrónico",
+                                          style: TextStyle(color: Colors.black)
+                                      ),
+                                      backgroundColor: Colors.tealAccent,
+                                    ));
+                                  }
+                                } catch (error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                    content: Text("No se logro validar el correo electrónico",
+                                        style: TextStyle(color: Colors.black)
+                                    ),
+                                    backgroundColor: Colors.tealAccent,
+                                  ));
+                                }
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                  content: Text("Revisar los datos ingresados",
+                                    style: TextStyle(color: Colors.black)
+                                  ),
+                                  backgroundColor: Colors.tealAccent,
+                                ));
+                              }
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(1.h),
+                              child: Text("Registrarse",
+                                style:TextStyle(
+                                //fontWeight: FontWeight.bold,
+                                  fontSize: 18.sp,
+                                  color: Colors.black
+                              )),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  ),
+                ),
+
+                SizedBox(height: 2.5.h),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("¿Ya tienes una cuenta? ",
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Colors.white,
+                    ),),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Login()));
+                      },
+                      child: Text("Inicia Sesión",
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                          color:Colors.white,
+                        ),
+                      ),
+                    )
                   ],
                 ),
 
-              ),
-            ),
-
-            const SizedBox(height: 30),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("¿Ya tienes una cuenta? ", style: TextStyle(
-                  color: Colors.white,
-                ),),
-                GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>login()));
-                  },
-                  child: const Text("Inicia Sesión", style: TextStyle(
-                    fontWeight: FontWeight.bold,color:Colors.white,
-                  ),),
-                )
               ],
             ),
-
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
+
   }
 }

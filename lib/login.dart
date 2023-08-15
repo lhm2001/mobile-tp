@@ -10,12 +10,13 @@ import 'api/category.dart';
 import 'api/consultation.dart';
 import 'globals.dart' as globals;
 import 'package:proyecto_tesis/api/service.dart';
+import 'package:sizer/sizer.dart';
 
-class login extends StatefulWidget {
-  const login({Key? key}) : super(key: key);
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
-  State<login> createState() => _loginState();
+  State<Login> createState() => _LoginState();
 }
 
 Future<void> fetchDataAndProcess() async {
@@ -33,17 +34,14 @@ Future<void> fetchDataAndProcess() async {
         dateTime = DateTime(dateTime.year, dateTime.month + 1, dateTime.day, 12, 0, 0);
 
         NotificationService().scheduleNotification(id: category.idCategory,title: 'Scheduled Notification',body: 'Scheduled', scheduledNotificationDateTime: dateTime);
-
       }
-
-
     }
   } catch (e) {
     log('Error al obtener datos: $e');
   }
 }
 
-class _loginState extends State<login> {
+class _LoginState extends State<Login> {
 
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
@@ -51,135 +49,286 @@ class _loginState extends State<login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF00807E),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: 10,),
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return Scaffold(
+          backgroundColor: const Color(0xFF00807E),
+          body: SafeArea(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
 
-              Text('Iniciar Sesión',style: TextStyle(
-                //fontWeight: FontWeight.bold,
-                fontSize: 32, color: Colors.white,
-              ),),
-              SizedBox(height: 50,),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    //borderRadius: BorderRadius.circular(15),
-                  ),
-                  child:Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: TextField(
-                      controller: _email,
-                      decoration: InputDecoration(
-                        border:InputBorder.none,
-                        hintText: 'Email',
-                      ),
+                  SizedBox(height: 10.h),
+
+                  Text('Iniciar Sesión',
+                    style: TextStyle(
+                      //fontWeight: FontWeight.bold,
+                      fontSize: 32.sp,
+                      color: Colors.white,
                     ),
                   ),
-                ),
-              ),
 
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    //borderRadius: BorderRadius.circular(15),
-                  ),
-                  child:Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: TextField(
-                      controller: _password,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border:InputBorder.none,
-                        hintText: 'Contraseña',
+                  SizedBox(height: 10.h),
+
+                  Padding(
+                    padding: EdgeInsets.all(2.5.h),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        //borderRadius: BorderRadius.circular(15),
                       ),
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 30,),
-
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                          ),
-                          onPressed: () async {
-                            _user= await service.login(_email.text,_password.text);
-                            log('user: $_user');
-                            setState(() {
-                              //log('result: $_user');
-                            });
-                            if(_user!=0){
-                              globals.userId=_user;
-                              globals.isLoggedIn = true;
-                              globals.idNavigation = 0;
-                              fetchDataAndProcess();
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>bottomNavigation()));
-                            }
-                            else{
-                              log('no login');
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text("Contraseña incorrecta")));
-                            }
-
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Text("Ingresar",style:TextStyle(
-                              //fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.black
-                            )),
+                      child:Padding(
+                        padding: EdgeInsets.all(1.h),
+                        child: TextField(
+                          controller: _email,
+                          decoration: const InputDecoration(
+                            border:InputBorder.none,
+                            hintText: 'Correo electrónico',
                           ),
                         ),
                       ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.all(2.5.h),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        //borderRadius: BorderRadius.circular(15),
+                      ),
+                      child:Padding(
+                        padding: EdgeInsets.all(1.h),
+                        child: TextField(
+                          controller: _password,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            border:InputBorder.none,
+                            hintText: 'Contraseña',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 7.5.h),
+
+                  Padding(
+                    padding: EdgeInsets.all(2.5.w),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                            ),
+                            onPressed: () async {
+                              _user= await service.login(_email.text,_password.text);
+                              log('user: $_user');
+                              setState(() {
+                                //log('result: $_user');
+                              });
+                              if(_user!=0){
+                                globals.userId = _user;
+                                print("USERID: $_user");
+                                globals.isLoggedIn = true;
+                                globals.idNavigation = 0;
+                                fetchDataAndProcess();
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const BottomNavigation()));
+                              }
+                              else{
+                                // _showSnackBar(context);
+                                // log('no login');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Contraseña incorrecta",
+                                      style: TextStyle(color: Colors.black)
+                                    ),
+                                    backgroundColor: Colors.tealAccent
+                                  )
+                                );
+                              }
+
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(2.5.w),
+                              child: Text("Ingresar",style:TextStyle(
+                                //fontWeight: FontWeight.bold,
+                                  fontSize: 18.sp,
+                                  color: Colors.black
+                              )),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                    ),
+                  ),
+
+                  SizedBox(height: 2.5.h),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+                      Text("¿No tienes una cuenta? ",
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.white,
+                        ),
+                      ),
+
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Register()));
+                        },
+                        child: Text("Regístrate",
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,color:Colors.white,
+                          ),
+                        ),
+                      )
                     ],
                   ),
 
-                ),
-              ),
-
-              SizedBox(height: 30,),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("¿No tienes una cuenta? ", style: TextStyle(
-                    color: Colors.white,
-                  ),),
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>register()));
-                    },
-                    child: Text("Regístrate", style: TextStyle(
-                      fontWeight: FontWeight.bold,color:Colors.white,
-                    ),),
-                  )
                 ],
               ),
-
-
-
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
+
+    // return Scaffold(
+    //   backgroundColor: Color(0xFF00807E),
+    //   body: SafeArea(
+    //     child: Center(
+    //       child: Column(
+    //         mainAxisAlignment: MainAxisAlignment.center,
+    //         children: [
+    //           SizedBox(height: 10,),
+    //
+    //           Text('Iniciar Sesión',style: TextStyle(
+    //             //fontWeight: FontWeight.bold,
+    //             fontSize: 32, color: Colors.white,
+    //           ),),
+    //           SizedBox(height: 50,),
+    //           Padding(
+    //             padding: const EdgeInsets.all(10),
+    //             child: Container(
+    //               decoration: BoxDecoration(
+    //                 color: Colors.white,
+    //                 //borderRadius: BorderRadius.circular(15),
+    //               ),
+    //               child:Padding(
+    //                 padding: const EdgeInsets.all(10.0),
+    //                 child: TextField(
+    //                   controller: _email,
+    //                   decoration: InputDecoration(
+    //                     border:InputBorder.none,
+    //                     hintText: 'Email',
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //
+    //           Padding(
+    //             padding: const EdgeInsets.all(10),
+    //             child: Container(
+    //               decoration: BoxDecoration(
+    //                 color: Colors.white,
+    //                 //borderRadius: BorderRadius.circular(15),
+    //               ),
+    //               child:Padding(
+    //                 padding: const EdgeInsets.all(10.0),
+    //                 child: TextField(
+    //                   controller: _password,
+    //                   obscureText: true,
+    //                   decoration: InputDecoration(
+    //                     border:InputBorder.none,
+    //                     hintText: 'Contraseña',
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //
+    //           SizedBox(height: 30,),
+    //
+    //           Padding(
+    //             padding: const EdgeInsets.all(8.0),
+    //             child: Center(
+    //               child: Column(
+    //                 mainAxisAlignment: MainAxisAlignment.center,
+    //                 children: [
+    //                   Container(
+    //                     child: ElevatedButton(
+    //                       style: ElevatedButton.styleFrom(
+    //                         primary: Colors.white,
+    //                       ),
+    //                       onPressed: () async {
+    //                         _user= await service.login(_email.text,_password.text);
+    //                         log('user: $_user');
+    //                         setState(() {
+    //                           //log('result: $_user');
+    //                         });
+    //                         if(_user!=0){
+    //                           globals.userId=_user;
+    //                           globals.isLoggedIn = true;
+    //                           globals.idNavigation = 0;
+    //                           fetchDataAndProcess();
+    //                           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>bottomNavigation()));
+    //                         }
+    //                         else{
+    //                           log('no login');
+    //                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //                               content: Text("Contraseña incorrecta")));
+    //                         }
+    //
+    //                       },
+    //                       child: Padding(
+    //                         padding: const EdgeInsets.all(15),
+    //                         child: Text("Ingresar",style:TextStyle(
+    //                           //fontWeight: FontWeight.bold,
+    //                             fontSize: 18,
+    //                             color: Colors.black
+    //                         )),
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 ],
+    //               ),
+    //
+    //             ),
+    //           ),
+    //
+    //           SizedBox(height: 30,),
+    //
+    //           Row(
+    //             mainAxisAlignment: MainAxisAlignment.center,
+    //             children: [
+    //               Text("¿No tienes una cuenta? ", style: TextStyle(
+    //                 color: Colors.white,
+    //               ),),
+    //               GestureDetector(
+    //                 onTap: (){
+    //                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=>register()));
+    //                 },
+    //                 child: Text("Regístrate", style: TextStyle(
+    //                   fontWeight: FontWeight.bold,color:Colors.white,
+    //                 ),),
+    //               )
+    //             ],
+    //           ),
+    //
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }

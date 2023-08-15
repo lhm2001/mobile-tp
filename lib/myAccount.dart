@@ -10,59 +10,64 @@ import 'package:proyecto_tesis/myProfile.dart';
 import 'package:proyecto_tesis/preventiveInformation.dart';
 import 'globals.dart' as globals;
 import 'dart:convert';
+import 'package:sizer/sizer.dart';
 
-class myAccount extends StatelessWidget {
+class MyAccount extends StatelessWidget {
 
-  const myAccount({Key? key}) : super(key: key);
+  const MyAccount({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Mi Perfil",style: TextStyle(color: Colors.white),), // Nombre de la página que puedes cambiar dinámicamente según la página actual.
-        backgroundColor: Color(0xFF00807E),
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 15),
-        child: ListView.builder(
-          itemCount: settingsList.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: Icon(settingsList[index].icon,color: Color(0xFF00807E), ),
-              title: Text(settingsList[index].title),
-              onTap: () {
-                switch (index) {
-                  case 0:
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => myProfile()),
-                    );
-                    break;
-                  case 1:
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => myNotifications()),
-                    );
-                    break;
-                  case 2:
-                    globals.userId=0;
-                    globals.isLoggedIn = false;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => login()),
-                    );
-                    break;
-                // Agrega más casos según la cantidad de opciones en la lista
-                }
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("Mi Perfil", style: TextStyle(color: Colors.white)), // Nombre de la página que puedes cambiar dinámicamente según la página actual.
+            backgroundColor: const Color(0xFF00807E),
+            iconTheme: const IconThemeData(color: Colors.white),
+          ),
+          body: Padding(
+            padding: EdgeInsets.only(top: 2.5.h),
+            child: ListView.builder(
+              itemCount: settingsList.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: Icon(settingsList[index].icon,color: const Color(0xFF00807E), ),
+                  title: Text(settingsList[index].title),
+                  onTap: () {
+                    switch (index) {
+                      case 0:
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const MyProfile()),
+                        );
+                        break;
+                      case 1:
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const MyNotifications()),
+                        );
+                        break;
+                      case 2:
+                        globals.userId=0;
+                        globals.isLoggedIn = false;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Login()),
+                        );
+                        break;
+                    // Agrega más casos según la cantidad de opciones en la lista
+                    }
+                  },
+                );
               },
-            );
-          },
-        ),
-      ),
+            ),
+          ),
 
+        );
+      }
     );
+
   }
 
 }
