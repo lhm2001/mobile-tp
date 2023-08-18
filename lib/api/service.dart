@@ -253,4 +253,40 @@ class service{
     }
   }
 
+
+  static Future<int> deleteCategoryById(int categoryId) async {
+    final response = await http.delete(Uri.parse('${globals.url}categories/$categoryId'));
+
+    print(categoryId);
+    inspect(response);
+    print(response);
+    if (response.statusCode == 200) {
+      log('200');
+      print('RB: ${response.body}');
+
+      return 1;
+    } else {
+      log('200 NO');
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      return 0;
+    }
+  }
+
+
+  static Future<int> deleteConsultationById(int consultationId) async {
+    final response = await http.delete(Uri.parse('${globals.url}consultations/$consultationId'));
+
+    if (response.statusCode == 200) {
+      log('200');
+      print('RB: ${response.body}');
+
+      return 1;
+    } else {
+      log('200 NO');
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      return 0;
+    }
+  }
 }
