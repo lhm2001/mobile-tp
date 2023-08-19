@@ -121,7 +121,6 @@ class _PreventiveInformationState extends State<PreventiveInformation> {
 
                       ),
 
-
                       SizedBox(
                         height: 2.5.h,
                       ),
@@ -179,3 +178,4 @@ class _PreventiveInformationState extends State<PreventiveInformation> {
 
   }
 }
+

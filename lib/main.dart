@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:proyecto_tesis/bottomNavigation.dart';
@@ -33,7 +34,6 @@ Future<void> main() async {
   // NotificationService().scheduleNotification(id: 1,title: 'Scheduled Notification',body: 'Hola', scheduledNotificationDateTime: dateTime1);
   // NotificationService().scheduleNotification(id:2,title: 'Scheduled Notification',body: 'Hola', scheduledNotificationDateTime: dateTime2);
   //
-
 
   runApp(const MyApp());
 }

@@ -30,7 +30,7 @@ class _CameraConsultationState extends State<CameraConsultation> {
   File? _imageFile;
 
   List<Category> categories = [];
-  List<Category> categoriesCompare = [];
+  List<Category> categoriesEvaluate = [];
 
   int? selectedId;
   late final Future _futureCategories;
@@ -47,7 +47,7 @@ class _CameraConsultationState extends State<CameraConsultation> {
     _futureCategories = service.getCategoriesByUserId(globals.userId);
     _futureCategories.then((value) => {
       categories = value,
-      categoriesCompare = value,
+      categoriesEvaluate = List<Category>.from(categories),
       if (categories.isNotEmpty) {
         selectedId = categories[0].idCategory,
       }
@@ -122,7 +122,8 @@ class _CameraConsultationState extends State<CameraConsultation> {
               onPressed: () {
                 if (newCategory.isNotEmpty) {
                   int newId = _generateUniqueId(categories);
-                  categories.add(Category(idCategory: newId, name: newCategory));
+                  Category auxCategory = Category(idCategory: newId, name: newCategory);
+                  categories.add(auxCategory);
                   selectedId = categories[categories.length - 1].idCategory;
                 }
 
@@ -193,11 +194,11 @@ class _CameraConsultationState extends State<CameraConsultation> {
           }
         }
 
-        MapEntry<DateTime, Map<Consultation, Category>> lastConsultationByCategory = myConsultationDates.entries.reduce((maxEntry, entry) {
-          return entry.key.isAfter(maxEntry.key) ? entry : maxEntry;
-        });
+        if (myConsultationDates.isNotEmpty) {
+          MapEntry<DateTime, Map<Consultation, Category>> lastConsultationByCategory = myConsultationDates.entries.reduce((maxEntry, entry) { return entry.key.isAfter(maxEntry.key) ? entry : maxEntry;});
 
-        dictionaryConsultations[lastConsultationByCategory.key] = lastConsultationByCategory.value;
+          dictionaryConsultations[lastConsultationByCategory.key] = lastConsultationByCategory.value;
+        }
 
       }
 
@@ -573,13 +574,12 @@ class _CameraConsultationState extends State<CameraConsultation> {
 
         print(base64Image);
 
-        print("Categories: $categories");
         String category = _findCategory(selectedId!, categories);
         print(category);
 
         bool categoryNew = true;
         int categoryId = 0;
-        for (var categoryCompare in categoriesCompare) {
+        for (var categoryCompare in categoriesEvaluate) {
           if (categoryCompare.name == category){
             categoryNew = false;
             categoryId = categoryCompare.idCategory;

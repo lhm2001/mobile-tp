@@ -2,31 +2,40 @@ import 'dart:collection';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:proyecto_tesis/api/consultation.dart';
+import 'package:proyecto_tesis/api/category.dart';
 import 'package:proyecto_tesis/api/service.dart';
 import 'package:proyecto_tesis/moleDetail.dart';
 import 'package:proyecto_tesis/preventiveInformation.dart';
 import 'package:sizer/sizer.dart';
+import 'compareResults.dart';
 import 'globals.dart' as globals;
 import 'dart:convert';
 
 class MyConsultations extends StatefulWidget {
+
   final int categoryId;
   final String categoryName;
 
-  const MyConsultations({
-    Key? key,
-    required this.categoryId,
-    required this.categoryName,
-  }) : super(key: key);
+  const MyConsultations({required this.categoryId,required this.categoryName});
 
   @override
-  _MyConsultationsState createState() => _MyConsultationsState();
+  State<MyConsultations> createState() => _MyConsultationsState();
 }
 
 class _MyConsultationsState extends State<MyConsultations> {
-  late Future<List<Consultation>> consultationsFuture;
+
+  late final Future futureConsultationsByCategoryId;
+  List<Consultation> myConsultations = [];
+  List<Consultation> auxConsultations = [];
+  List<Consultation> filterConsultations = [];
+
+  bool dataLoaded = false;
+
+  int selectedButtonIndex = -1;
 
   bool isMultiSelectionEnabled=false;
   HashSet selectedItem = HashSet();
@@ -34,11 +43,49 @@ class _MyConsultationsState extends State<MyConsultations> {
   @override
   void initState() {
     super.initState();
-    consultationsFuture = service.getConsultationsByCategoryId(widget.categoryId);
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    futureConsultationsByCategoryId = service.getConsultationsByCategoryId(widget.categoryId);
+    futureConsultationsByCategoryId.then((consultations) => {
+      myConsultations = consultations,
+      auxConsultations = List<Consultation>.from(myConsultations),
+      filterConsultations = List<Consultation>.from(myConsultations),
+      print(auxConsultations[0].createdDate),
+      print(myConsultations[0].createdDate),
+      setState(() {
+        myConsultations;
+        dataLoaded = true;
+      }),
+    });
+  }
+
+  List<Consultation> filterConsultation(int index) {
+    if (index == 0) {
+      final sorted = filterConsultations..sort((a, b) => DateFormat("dd/MM/yyyy HH:mm:ss").parse(a.createdDate).compareTo(DateFormat("dd/MM/yyyy HH:mm:ss").parse(b.createdDate)));
+      return sorted;
+    } else {
+      final sorted = filterConsultations..sort((a, b) => DateFormat("dd/MM/yyyy HH:mm:ss").parse(b.createdDate).compareTo(DateFormat("dd/MM/yyyy HH:mm:ss").parse(a.createdDate)));
+      return sorted;
+    }
+  }
+
+  void setFilter(int index) {
+    setState(() {
+      if (selectedButtonIndex == index) {
+        selectedButtonIndex = -1;
+        auxConsultations = myConsultations;
+      } else {
+        selectedButtonIndex = index;
+        auxConsultations = filterConsultation(index);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Sizer(
       builder: (context, orientation, deviceType) {
         return Scaffold(
@@ -51,37 +98,61 @@ class _MyConsultationsState extends State<MyConsultations> {
                 print('selecteditem');
                 print(selectedItem);
               });
-            }, icon: Icon(Icons.close)) :null,
+            }, icon: const Icon(Icons.close)) :null,
             title: Text(isMultiSelectionEnabled? getHeaderCountText(): 'Mis consultas', style: TextStyle(color: Colors.white),),
             backgroundColor: const Color(0xFF00807E),
             iconTheme: const IconThemeData(color: Colors.white),
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.only(top: 10.w, left: 5.w, right: 5.w),
-              child: Column(
-                children: [
-                  FutureBuilder(
-                    future: consultationsFuture,
-                    builder: (context, AsyncSnapshot<List<Consultation>> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else {
-                        final consultations = snapshot.data;
+                padding: EdgeInsets.only(top: 5.w, left: 5.w, right:5.w),
+                child: Column(
+                  children: [
 
-                        if (consultations == null || consultations.isEmpty) {
-                          return Center(
-                            child: Text("No hay consultas disponibles", style: TextStyle(fontSize: 16.sp)),
-                          );
-                        } else {
-                          return GridView.builder(
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 0.h, mainAxisSpacing: 0.h),
+                    ToggleButtons(
+                      isSelected: [selectedButtonIndex == 0, selectedButtonIndex == 1],
+                      onPressed: (index) => setFilter(index),
+                      selectedColor: Colors.white,
+                      fillColor: const Color(0xFF00807E), // Color de fondo del botón activo
+                      borderRadius: BorderRadius.circular(50.sp),
+                      borderWidth: 0.5.w,
+                      selectedBorderColor: Colors.tealAccent,
+                      borderColor: Colors.tealAccent,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(1.w),
+                          child: Text('ASC', style: TextStyle(fontSize: 10.sp)),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(1.w),
+                          child: Text('DES', style: TextStyle(fontSize: 10.sp)),
+                        )
+                      ],
+                    ),
+
+                    SizedBox(
+                      height: 5.w,
+                    ),
+
+                    dataLoaded ?
+                    auxConsultations.isEmpty ?
+                    Center(
+                      child: Text("No hay consultas disponibles", style: TextStyle(fontSize: 16.sp)),
+                    ) :
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      child: ListView.builder(
+                        itemCount: 1, //myCategoryConsultation
+                        itemBuilder: (context, index) {
+                          // final startIndex = index * 3;
+                          // final endIndex = startIndex + 3;
+                          // final currentConsultations = auxConsultations.sublist(startIndex, endIndex < auxConsultations.length ? endIndex : auxConsultations.length);
+                          return GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 1.h, mainAxisSpacing: 1.h),
                             shrinkWrap: true,
-                            itemCount: consultations.length,
-                            itemBuilder: (context, index) {
-                              var consultation = consultations[index];
+                            itemCount: auxConsultations.length,
+                            itemBuilder: (context,index){
+                              var consultation = auxConsultations[index];
+
                               String date = consultation.createdDate;
                               String datePart = date.split(' ')[0];
 
@@ -98,38 +169,102 @@ class _MyConsultationsState extends State<MyConsultations> {
                                 },
                                 child: Column(
                                   children: [
+
                                     Expanded(
                                       child: Stack(
                                         children: [
                                           _buildConsultationImage(consultation),
 
                                           if(selectedItem.contains(consultation.idConsultation))
-                                            Positioned.fill(child: Align(
-                                              alignment: Alignment.center,
-                                              child: Icon(Icons.check,color:Colors.white,size:30),
-                                            ))
+                                            const Positioned.fill(
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Icon(Icons.check,color:Colors.white,size:30),
+                                              )
+                                            )
                                         ],
                                       ),
                                     ),
-                                    SizedBox(height: 0.3.h),
-                                    Text(datePart, style: TextStyle(color: Colors.black, fontSize: 10.sp, fontWeight: FontWeight.bold)),
+
+                                    // Expanded(child: Image.memory(const Base64Decoder().convert(consultation.photo),width: 20.w,height: 20.h, fit: BoxFit.cover)),
+
+                                    SizedBox(height: 0.5.h),
+
+                                    Text(datePart,style: TextStyle(color: Colors.black,fontSize: 10.sp,fontWeight: FontWeight.bold)),
+
                                     SizedBox(height: 2.5.h),
                                   ],
                                 ),
                               );
-                            },
-                          );
-                        }
-                      }
-                    },
-                  ),
-                ],
-              ),
+
+                            });
+                          }
+                      ),
+                    ) :
+                    const Center(child: CircularProgressIndicator()),
+
+
+                    // FutureBuilder(
+                    //   initialData: const [],
+                    //   future:service.getConsultationsByCategoryId(widget.categoryId),
+                    //   builder: (context, AsyncSnapshot<List> snapshot){
+                    //     if(snapshot.connectionState == ConnectionState.waiting){
+                    //       return const Center(
+                    //         child: CircularProgressIndicator(),
+                    //       );
+                    //     }
+                    //     else{
+                    //       if (snapshot.data!.isEmpty) {
+                    //         // Si la lista está vacía, muestra un Text con el mensaje
+                    //         return Center(
+                    //           child: Text("No hay consultas disponibles", style: TextStyle(fontSize: 16.sp)),
+                    //         );
+                    //       }
+                    //       else{
+                    //         return GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,crossAxisSpacing: 1.h,mainAxisSpacing: 1.h),
+                    //             shrinkWrap: true,
+                    //             itemCount: snapshot.data!.length,
+                    //             itemBuilder: (context,index){
+                    //               var consultation=snapshot.data![index];
+                    //
+                    //               String date = consultation.createdDate;
+                    //               String datePart = date.split(' ')[0];
+                    //
+                    //               return GestureDetector(
+                    //                 onTap: (){
+                    //                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MoleDetail(consultation: consultation,categoryName:widget.categoryName)));
+                    //                 },
+                    //
+                    //                 child: Column(
+                    //                   children: [
+                    //                     Expanded(child: Image.memory(const Base64Decoder().convert(consultation.photo),width: 20.w,height: 20.h, fit: BoxFit.cover)),
+                    //
+                    //                     SizedBox(height: 2.5.h),
+                    //
+                    //                     Text(datePart,style: TextStyle(color: Colors.black,fontSize: 12.sp,fontWeight: FontWeight.bold)),
+                    //
+                    //                     SizedBox(height: 2.5.h),
+                    //                   ],
+                    //                 ),
+                    //               );
+                    //
+                    //             });
+                    //       }
+                    //
+                    //     }
+                    //
+                    //   },
+                    // ),
+
+                  ],
+                )
             ),
           ),
-          bottomNavigationBar: isMultiSelectionEnabled
-              ? BottomAppBar(
+          bottomNavigationBar: isMultiSelectionEnabled ?
+            BottomAppBar(
             color: Color(0xFFB1D8D7),
+            child: SizedBox(
+              height: 10.h,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -140,34 +275,54 @@ class _MyConsultationsState extends State<MyConsultations> {
                           // Handle the delete action here
                           // You can call a method to delete selected items
                         },
-                        icon: Icon(Icons.delete),
+                        icon: const Icon(Icons.delete),
+                        color: Colors.redAccent,
                       ),
-                      Text("Eliminar"),
+                      Text("Eliminar", style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold,color: Colors.redAccent)),
                     ],
                   ),
                   Column(
                     children: [
                       IconButton(
                         onPressed: () {
-                          // Handle the delete action here
-                          // You can call a method to delete selected items
+                          if (selectedItem.isEmpty || selectedItem.length != 2) {
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text("Seleccionar 2 consultas para comparar", style: TextStyle(color: Colors.black)),
+                              backgroundColor: Colors.redAccent,
+                            ));
+                          } else {
+                            // myConsultations;
+                            SplayTreeSet<int> sortSelectedItem = SplayTreeSet<int>.from(selectedItem);
+                            List<Consultation> selectedConsultations = myConsultations
+                              .where((c) => sortSelectedItem.contains(c.idConsultation))
+                              .toList();
+
+                            Map<Consultation, Category> convertToMap = {
+                              selectedConsultations[0]: Category(idCategory: widget.categoryId, name: widget.categoryName),
+                            };
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => CompareResults(lastConsultation: convertToMap, consultation: selectedConsultations[1], category: widget.categoryName)),
+                            );
+
+                          }
                         },
-                        icon: Icon(Icons.compare),
+                        icon: const Icon(Icons.compare),
+                        color: const Color(0xFF00807E),
                       ),
-                      Text("Comparar"),
+                      Text("Comparar", style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold,color: const Color(0xFF00807E))),
                     ],
                   ),
                   // You can add more buttons or widgets here
                 ],
               ),
-
-          )
-              : null,
+            ),
+          ) : null,
         );
-      },
+      }
     );
   }
-
   Widget _buildConsultationImage(Consultation consultation) {
     return Image.memory(
       const Base64Decoder().convert(consultation.photo),
@@ -178,7 +333,7 @@ class _MyConsultationsState extends State<MyConsultations> {
   }
 
   String getHeaderCountText(){
-    return selectedItem.isNotEmpty? selectedItem.length.toString()+" fotos seleccionados" : "Ninguna imagen seleccionada";
+    return selectedItem.isNotEmpty? "${selectedItem.length} fotos seleccionados" : "Ninguna imagen seleccionada";
   }
 
   void doMultiSelection(int path,consultation) {
@@ -199,6 +354,7 @@ class _MyConsultationsState extends State<MyConsultations> {
     print(selectedItem);
   }
 }
+
 
 
 

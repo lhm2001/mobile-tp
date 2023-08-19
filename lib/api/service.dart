@@ -253,7 +253,6 @@ class service{
     }
   }
 
-
   static Future<int> deleteCategoryById(int categoryId) async {
     final response = await http.delete(Uri.parse('${globals.url}categories/$categoryId'));
 
@@ -289,4 +288,5 @@ class service{
       return 0;
     }
   }
+
 }
