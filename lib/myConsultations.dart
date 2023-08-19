@@ -37,12 +37,14 @@ class _MyConsultationsState extends State<MyConsultations> {
 
   int selectedButtonIndex = -1;
 
+
   bool isMultiSelectionEnabled=false;
   HashSet selectedItem = HashSet();
 
   @override
   void initState() {
     super.initState();
+
     fetchData();
   }
 
@@ -105,6 +107,7 @@ class _MyConsultationsState extends State<MyConsultations> {
           ),
           body: SingleChildScrollView(
             child: Padding(
+
                 padding: EdgeInsets.only(top: 5.w, left: 5.w, right:5.w),
                 child: Column(
                   children: [
@@ -203,61 +206,9 @@ class _MyConsultationsState extends State<MyConsultations> {
                     ) :
                     const Center(child: CircularProgressIndicator()),
 
-
-                    // FutureBuilder(
-                    //   initialData: const [],
-                    //   future:service.getConsultationsByCategoryId(widget.categoryId),
-                    //   builder: (context, AsyncSnapshot<List> snapshot){
-                    //     if(snapshot.connectionState == ConnectionState.waiting){
-                    //       return const Center(
-                    //         child: CircularProgressIndicator(),
-                    //       );
-                    //     }
-                    //     else{
-                    //       if (snapshot.data!.isEmpty) {
-                    //         // Si la lista está vacía, muestra un Text con el mensaje
-                    //         return Center(
-                    //           child: Text("No hay consultas disponibles", style: TextStyle(fontSize: 16.sp)),
-                    //         );
-                    //       }
-                    //       else{
-                    //         return GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,crossAxisSpacing: 1.h,mainAxisSpacing: 1.h),
-                    //             shrinkWrap: true,
-                    //             itemCount: snapshot.data!.length,
-                    //             itemBuilder: (context,index){
-                    //               var consultation=snapshot.data![index];
-                    //
-                    //               String date = consultation.createdDate;
-                    //               String datePart = date.split(' ')[0];
-                    //
-                    //               return GestureDetector(
-                    //                 onTap: (){
-                    //                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MoleDetail(consultation: consultation,categoryName:widget.categoryName)));
-                    //                 },
-                    //
-                    //                 child: Column(
-                    //                   children: [
-                    //                     Expanded(child: Image.memory(const Base64Decoder().convert(consultation.photo),width: 20.w,height: 20.h, fit: BoxFit.cover)),
-                    //
-                    //                     SizedBox(height: 2.5.h),
-                    //
-                    //                     Text(datePart,style: TextStyle(color: Colors.black,fontSize: 12.sp,fontWeight: FontWeight.bold)),
-                    //
-                    //                     SizedBox(height: 2.5.h),
-                    //                   ],
-                    //                 ),
-                    //               );
-                    //
-                    //             });
-                    //       }
-                    //
-                    //     }
-                    //
-                    //   },
-                    // ),
-
                   ],
                 )
+
             ),
           ),
           bottomNavigationBar: isMultiSelectionEnabled ?
@@ -271,14 +222,49 @@ class _MyConsultationsState extends State<MyConsultations> {
                   Column(
                     children: [
                       IconButton(
-                        onPressed: () {
-                          // Handle the delete action here
-                          // You can call a method to delete selected items
+                        onPressed: () async {
+
+                          bool allSuccessful = true;
+
+                          for (var id in selectedItem) {
+                            var result = await service.deleteConsultationById(id);
+                            if (result != 1) {
+                              allSuccessful = false;
+                              break; // Si alguna respuesta no es 1, no es necesario seguir iterando.
+                            }
+                          }
+
+                          if (allSuccessful) {
+                            setState(() {
+                              //fetchData();
+                               myConsultations.removeWhere((consultation) => selectedItem.contains(consultation.idConsultation));
+                               filterConsultations.removeWhere((consultation) => selectedItem.contains(consultation.idConsultation));
+                               auxConsultations.removeWhere((consultation) => selectedItem.contains(consultation.idConsultation));
+                               selectedItem.clear();
+                            });
+                          }
+                          else {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "Hubo un error al eliminar la categoría.",
+                                  style: TextStyle(
+                                      color: Colors.black),
+                                ),
+                                backgroundColor:
+                                Colors.tealAccent,
+                              ),
+                            );
+                          }
+
+
                         },
+
                         icon: const Icon(Icons.delete),
-                        color: Colors.redAccent,
+                        color: const Color(0xFF00807E),
                       ),
-                      Text("Eliminar", style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold,color: Colors.redAccent)),
+                      Text("Eliminar", style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold,color: const Color(0xFF00807E),)),
                     ],
                   ),
                   Column(

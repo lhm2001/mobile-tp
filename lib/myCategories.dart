@@ -216,16 +216,18 @@ class _MyCategoriesState extends State<MyCategories> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MyConsultations(categoryId: auxCategoryConsultation!.keys.elementAt(index).idCategory, categoryName: auxCategoryConsultation!.keys.elementAt(index).name)));
                               },
                               child: Card(
-                                color: const Color(0xFFB1D8D7),
+                                color: Colors.white,
                                 child: Padding(
-                                  padding: EdgeInsets.all(1.w),
+                                  padding: EdgeInsets.all(2.w),
                                   child: Row(
                                     children: [
 
                                       SizedBox(
-                                        width: 15.h,
-                                        height: 15.h,
-                                        child: auxCategoryConsultation.values.elementAt(index).idConsultation !=0 ? Image.memory(Base64Decoder().convert(auxCategoryConsultation.values.elementAt(index).photo), fit: BoxFit.cover) : Image.asset('assets/mole.png'),
+                                        width: 12.h,
+                                        height: 12.h,
+                                        child: auxCategoryConsultation.values.elementAt(index).idConsultation !=0 ?
+                                        ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image.memory(Base64Decoder().convert(auxCategoryConsultation.values.elementAt(index).photo), fit: BoxFit.cover)) :
+                                        ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image.asset('assets/mole.png')),
                                       ),
 
                                       SizedBox(width: 2.5.w),
@@ -262,173 +264,6 @@ class _MyCategoriesState extends State<MyCategories> {
                     const Center(
                       child: CircularProgressIndicator(),
                     ),
-
-
-                    //COMENTADO
-
-                    // FutureBuilder(
-                    //   initialData: const [],
-                    //   future: service.getCategoriesByUserId(userId),
-                    //   builder: (context, AsyncSnapshot<List> snapshot){
-                    //     return ListView.builder(
-                    //       shrinkWrap: true,
-                    //       itemCount: snapshot.data!.length,
-                    //       itemBuilder: (context,index){
-                    //         var category=snapshot.data![index];
-                    //         if(snapshot.hasData){
-                    //           return FutureBuilder<Consultation>(
-                    //               future: service.getLastConsultationByCategoryId(category.idCategory),
-                    //               builder: (context,snapshotMultimedia){
-                    //                 if (snapshotMultimedia.hasData){
-                    //                   var consultation=snapshotMultimedia.data!;
-                    //                   return GestureDetector(
-                    //                     onTap: (){
-                    //                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MyConsultations(categoryId: category.idCategory,categoryName:category.name)));
-                    //                     },
-                    //                     child: Card(
-                    //                       color: const Color(0xFFB1D8D7),
-                    //                       child: Padding(
-                    //                         padding: EdgeInsets.all(1.w),
-                    //                         child: Row(
-                    //                           children: [
-                    //
-                    //                             SizedBox(
-                    //                               width: 15.h,
-                    //                               height: 15.h,
-                    //                               child: consultation.idConsultation!=0 ? Image.memory(Base64Decoder().convert(consultation.photo), fit: BoxFit.cover) : Image.asset('assets/mole.png'),
-                    //                             ),
-                    //
-                    //                             SizedBox(width: 2.5.w),
-                    //
-                    //                             Column(
-                    //                               crossAxisAlignment: CrossAxisAlignment.start,
-                    //                               children: [
-                    //
-                    //                                 Text(category.name.toString(),style: TextStyle(color: Colors.black, fontSize: 12.sp, fontWeight: FontWeight.bold)),
-                    //
-                    //                                 SizedBox(height: 2.5.h),
-                    //
-                    //                                 getTimeDifference(consultation.createdDate) == 1 ?
-                    //                                 SizedBox(
-                    //                                     width: 45.w,
-                    //                                     child: Text('Última foto tomada hace ${getTimeDifference(consultation.createdDate)} día', style: TextStyle(color: Colors.black, fontSize: 8.sp), maxLines: 3, overflow: TextOverflow.clip)
-                    //                                 ) :
-                    //                                 SizedBox(
-                    //                                   width: 45.w,
-                    //                                   child: Text('Última foto tomada hace ${getTimeDifference(consultation.createdDate)} días', style: TextStyle(color: Colors.black, fontSize: 8.sp), maxLines: 3, overflow: TextOverflow.clip)
-                    //                                 )
-                    //
-                    //                               ],
-                    //                             )
-                    //                           ],
-                    //                         ),
-                    //                       ),
-                    //
-                    //                     ),
-                    //                   );
-                    //                 }
-                    //                 else {
-                    //                   return const Center(
-                    //                     child: CircularProgressIndicator(),
-                    //                   );
-                    //                 }
-                    //
-                    //               }
-                    //
-                    //           );
-                    //         }
-                    //       }
-                    //     );
-                    //   },
-                    // ),
-
-                    //ANTIGUO
-
-                    // FutureBuilder(
-                    //   initialData: [],
-                    //   future:service.getProfile(),
-                    //   builder: (context, AsyncSnapshot<List> snapshot){
-                    //     return GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2 ),
-                    //         shrinkWrap: true,
-                    //         itemCount: snapshot.data!.length,
-                    //         // itemCount: 2,
-                    //         itemBuilder: (context,index){
-                    //           if(snapshot.hasData){
-                    //             Profile profile=snapshot.data![index];
-                    //             //var recipe=users[index];
-                    //             return index<2 ?
-                    //             Card(
-                    //               color: Color(0xFF89250A),
-                    //               child: Column(
-                    //                 children: [
-                    //                   Image.memory(Base64Decoder().convert(profile.profilePictureUrl),width: double.infinity,fit:BoxFit.fitWidth,height: 130,),
-                    //                   // Image.network(profile.profilePictureUrl,width: double.infinity,fit:BoxFit.fitHeight,height: 130,),
-                    //                   SizedBox(height: 10,),
-                    //                   Text(profile.name.toString(),style: TextStyle(color: Colors.white),),
-                    //                 ],
-                    //               ),
-                    //             )
-                    //                 :
-                    //             Container();
-                    //           }
-                    //           else {
-                    //             return Container(
-                    //               child: Center(
-                    //                 child: CircularProgressIndicator(),
-                    //               ),
-                    //             );
-                    //           }
-                    //
-                    //         });
-                    //
-                    //   },
-                    // ),
-                    // FutureBuilder(
-                    //       initialData: [],
-                    //       future:service.getRecipe(),
-                    //       builder: (context, AsyncSnapshot<List> snapshot){
-                    //         return Transform.scale(
-                    //           alignment: FractionalOffset.topCenter,
-                    //           scale: 0.4,
-                    //           child: ScaledList(
-                    //             itemCount: categories.length,
-                    //             itemColor: (index) {
-                    //               return kMixedColors[index % kMixedColors.length];
-                    //             },
-                    //             itemBuilder: (index,selectedIndex){
-                    //               final category = categories[index];
-                    //               return Column(
-                    //
-                    //                 children: [
-                    //                   Container(
-                    //
-                    //                     height: selectedIndex == index
-                    //                         ? 200
-                    //                         : 150,
-                    //
-                    //                       child: FittedBox(
-                    //                         fit: BoxFit.fill,
-                    //                           child: ClipRRect(
-                    //                               borderRadius: BorderRadius.circular(6),
-                    //                               child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOjrcB7S_KmVCgLUB80RUCosy2GqgtrP-IyA&usqp=CAU',height: 100,))),
-                    //
-                    //
-                    //                   ),
-                    //                   SizedBox(height: 15),
-                    //                   Text(
-                    //                     category.name,
-                    //                     style: TextStyle(
-                    //                         color: Colors.white,
-                    //                         fontSize: 15),
-                    //                   )
-                    //                 ],
-                    //               );
-                    //             },
-                    //           ),
-                    //         );
-                    //
-                    //       },
-                    //     ),
 
                   ],
                 )
