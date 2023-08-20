@@ -11,6 +11,7 @@ import 'api/consultation.dart';
 import 'globals.dart' as globals;
 import 'package:proyecto_tesis/api/service.dart';
 import 'package:sizer/sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -46,6 +47,33 @@ class _LoginState extends State<Login> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   late int _user;
+  late bool logged=false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    checkCredentials();
+
+  }
+
+  Future<void> checkCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? email=prefs.getString('email');
+    String? pass=prefs.getString('password');
+
+    if(email!=null && pass!=null){
+
+      logged=true;
+      _user= await service.login(email,pass);
+      globals.userId = _user;
+      globals.isLoggedIn = true;
+      globals.idNavigation = 0;
+      fetchDataAndProcess();
+
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const BottomNavigation()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +99,16 @@ class _LoginState extends State<Login> {
 
                   SizedBox(height: 10.h),
 
+
+                  logged ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0XFFFFFFFF))) : Container(),
+
+
                   Padding(
                     padding: EdgeInsets.all(2.5.h),
                     child: Container(
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Colors.white,
-                        //borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child:Padding(
                         padding: EdgeInsets.all(1.h),
@@ -94,9 +126,9 @@ class _LoginState extends State<Login> {
                   Padding(
                     padding: EdgeInsets.all(2.5.h),
                     child: Container(
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Colors.white,
-                        //borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child:Padding(
                         padding: EdgeInsets.all(1.h),
@@ -114,56 +146,54 @@ class _LoginState extends State<Login> {
 
                   SizedBox(height: 7.5.h),
 
-                  Padding(
-                    padding: EdgeInsets.all(2.5.w),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                            ),
-                            onPressed: () async {
-                              _user= await service.login(_email.text,_password.text);
-                              log('user: $_user');
-                              setState(() {
-                                //log('result: $_user');
-                              });
-                              if(_user!=0){
-                                globals.userId = _user;
-                                print("USERID: $_user");
-                                globals.isLoggedIn = true;
-                                globals.idNavigation = 0;
-                                fetchDataAndProcess();
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const BottomNavigation()));
-                              }
-                              else{
-                                // _showSnackBar(context);
-                                // log('no login');
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Contraseña incorrecta",
-                                      style: TextStyle(color: Colors.black)
-                                    ),
-                                    backgroundColor: Colors.tealAccent
-                                  )
-                                );
-                              }
-
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(2.5.w),
-                              child: Text("Ingresar",style:TextStyle(
-                                //fontWeight: FontWeight.bold,
-                                  fontSize: 18.sp,
-                                  color: Colors.black
-                              )),
-                            ),
-                          ),
-                        ],
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0), // Ajusta el valor según desees
                       ),
+                    ),
+                    onPressed: () async {
+                      _user= await service.login(_email.text,_password.text);
+                      log('user: $_user');
+                      setState(() {
+                        //log('result: $_user');
+                      });
+                      if(_user!=0){
+                        globals.userId = _user;
+                        print("USERID: $_user");
+                        globals.isLoggedIn = true;
+                        globals.idNavigation = 0;
+                        fetchDataAndProcess();
 
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        prefs.setString('email', _email.text);
+                        prefs.setString('password', _password.text);
+
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const BottomNavigation()));
+
+                      }
+                      else{
+                        // _showSnackBar(context);
+                        // log('no login');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Contraseña incorrecta",
+                                    style: TextStyle(color: Colors.black)
+                                ),
+                                backgroundColor: Colors.tealAccent
+                            )
+                        );
+                      }
+
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(2.3.w),
+                      child: Text("Ingresar",style:TextStyle(
+                        //fontWeight: FontWeight.bold,
+                          fontSize: 15.sp,
+                          color: Colors.black
+                      )),
                     ),
                   ),
 
@@ -202,133 +232,5 @@ class _LoginState extends State<Login> {
       },
     );
 
-    // return Scaffold(
-    //   backgroundColor: Color(0xFF00807E),
-    //   body: SafeArea(
-    //     child: Center(
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           SizedBox(height: 10,),
-    //
-    //           Text('Iniciar Sesión',style: TextStyle(
-    //             //fontWeight: FontWeight.bold,
-    //             fontSize: 32, color: Colors.white,
-    //           ),),
-    //           SizedBox(height: 50,),
-    //           Padding(
-    //             padding: const EdgeInsets.all(10),
-    //             child: Container(
-    //               decoration: BoxDecoration(
-    //                 color: Colors.white,
-    //                 //borderRadius: BorderRadius.circular(15),
-    //               ),
-    //               child:Padding(
-    //                 padding: const EdgeInsets.all(10.0),
-    //                 child: TextField(
-    //                   controller: _email,
-    //                   decoration: InputDecoration(
-    //                     border:InputBorder.none,
-    //                     hintText: 'Email',
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //
-    //           Padding(
-    //             padding: const EdgeInsets.all(10),
-    //             child: Container(
-    //               decoration: BoxDecoration(
-    //                 color: Colors.white,
-    //                 //borderRadius: BorderRadius.circular(15),
-    //               ),
-    //               child:Padding(
-    //                 padding: const EdgeInsets.all(10.0),
-    //                 child: TextField(
-    //                   controller: _password,
-    //                   obscureText: true,
-    //                   decoration: InputDecoration(
-    //                     border:InputBorder.none,
-    //                     hintText: 'Contraseña',
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //
-    //           SizedBox(height: 30,),
-    //
-    //           Padding(
-    //             padding: const EdgeInsets.all(8.0),
-    //             child: Center(
-    //               child: Column(
-    //                 mainAxisAlignment: MainAxisAlignment.center,
-    //                 children: [
-    //                   Container(
-    //                     child: ElevatedButton(
-    //                       style: ElevatedButton.styleFrom(
-    //                         primary: Colors.white,
-    //                       ),
-    //                       onPressed: () async {
-    //                         _user= await service.login(_email.text,_password.text);
-    //                         log('user: $_user');
-    //                         setState(() {
-    //                           //log('result: $_user');
-    //                         });
-    //                         if(_user!=0){
-    //                           globals.userId=_user;
-    //                           globals.isLoggedIn = true;
-    //                           globals.idNavigation = 0;
-    //                           fetchDataAndProcess();
-    //                           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>bottomNavigation()));
-    //                         }
-    //                         else{
-    //                           log('no login');
-    //                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //                               content: Text("Contraseña incorrecta")));
-    //                         }
-    //
-    //                       },
-    //                       child: Padding(
-    //                         padding: const EdgeInsets.all(15),
-    //                         child: Text("Ingresar",style:TextStyle(
-    //                           //fontWeight: FontWeight.bold,
-    //                             fontSize: 18,
-    //                             color: Colors.black
-    //                         )),
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //
-    //             ),
-    //           ),
-    //
-    //           SizedBox(height: 30,),
-    //
-    //           Row(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             children: [
-    //               Text("¿No tienes una cuenta? ", style: TextStyle(
-    //                 color: Colors.white,
-    //               ),),
-    //               GestureDetector(
-    //                 onTap: (){
-    //                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=>register()));
-    //                 },
-    //                 child: Text("Regístrate", style: TextStyle(
-    //                   fontWeight: FontWeight.bold,color:Colors.white,
-    //                 ),),
-    //               )
-    //             ],
-    //           ),
-    //
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }

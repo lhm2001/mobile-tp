@@ -36,6 +36,8 @@ class _MyCategoriesState extends State<MyCategories> {
   Map<Category, Consultation> auxCategoryConsultation = {};
   Map<Category, Consultation> filCategoryConsultation = {};
 
+  late TextEditingController categoryName = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -135,8 +137,8 @@ class _MyCategoriesState extends State<MyCategories> {
                       fillColor: const Color(0xFF00807E), // Color de fondo del botón activo
                       borderRadius: BorderRadius.circular(50.sp),
                       borderWidth: 0.5.w,
-                      selectedBorderColor: Colors.tealAccent,
-                      borderColor: Colors.tealAccent,
+                      selectedBorderColor: const Color(0xFF00807E),
+                      borderColor: const Color(0xFF00807E),
                       children: [
                         Padding(
                           padding: EdgeInsets.all(1.w),
@@ -189,7 +191,8 @@ class _MyCategoriesState extends State<MyCategories> {
                                         cat.idCategory ==
                                             deletedCategoryId);
                                       });
-                                    } else {
+                                    }
+                                    else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
@@ -207,7 +210,107 @@ class _MyCategoriesState extends State<MyCategories> {
                                   backgroundColor: Color(0xFF00807E),
                                   foregroundColor: Colors.white,
                                   icon: Icons.delete,
-                                  label: 'Eliminar',
+                                  // label: 'Eliminar',
+                                ),
+                                SlidableAction(
+                                  onPressed: (BuildContext context) {
+                                    categoryName.text = auxCategoryConsultation!.keys.elementAt(index).name;
+
+                                    showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) => Dialog(
+                                      backgroundColor: Color(0XFFcce5e5),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              child:Padding(
+                                                padding: EdgeInsets.all(1.h),
+                                                child: TextField(
+                                                  controller: categoryName,
+                                                  decoration: const InputDecoration(
+                                                    border:InputBorder.none,
+                                                    hintText: 'Nombre de categoría',
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 2.5.h),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                primary: const Color(0xFFffffff),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10.0), // Ajusta el valor según desees
+                                                ),
+                                              ),
+                                              onPressed: () async {
+
+                                                var updateId = auxCategoryConsultation!.keys.elementAt(index).idCategory;
+                                                var result = await service.updateCategoryById(categoryName.text,updateId);
+                                                print(result);
+                                                if (result == 1) {
+
+                                                  service.getCategoriesByUserId(globals.userId)
+                                                      .then((allCategories) {
+                                                        dataLoaded=false;
+                                                    auxCategoryConsultation.clear();
+                                                    myCategoryConsultation.clear();
+                                                    filCategoryConsultation.clear();
+                                                    processLastConsultationByCategoryId(allCategories);
+
+
+                                                    Navigator.pop(context); // Cierra el diálogo
+                                                  })
+                                                      .catchError((error) {
+                                                    print("Error while fetching categories: $error");
+                                                    // Maneja el error si es necesario
+                                                  });
+
+
+                                                }
+                                                else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                        "Hubo un error al actualizar el nombre de la categoría.",
+                                                        style: TextStyle(
+                                                            color: Colors.black),
+                                                      ),
+                                                      backgroundColor:
+                                                      Colors.tealAccent,
+                                                    ),
+                                                  );
+                                                }
+
+                                              },
+                                              child: Padding(
+                                                padding: EdgeInsets.all(2.3.w),
+                                                child: Text("Guardar",style:TextStyle(
+                                                  //fontWeight: FontWeight.bold,
+                                                    fontSize: 12.sp,
+                                                    color: Colors.black
+                                                )),
+                                              ),
+                                            ),
+
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                  },
+                                  backgroundColor: Color(0xFF5177A1),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.edit,
+                                  // label: 'Editar',
                                 ),
                               ],
                             ),
@@ -262,7 +365,7 @@ class _MyCategoriesState extends State<MyCategories> {
                       ),
                     ) :
                     const Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00807E))),
                     ),
 
                   ],

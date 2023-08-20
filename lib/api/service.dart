@@ -289,4 +289,37 @@ class service{
     }
   }
 
+
+  static Future<int> updateCategoryById(String name,int categoryId) async {
+    print('categoryId');
+    print(categoryId);
+
+    final response = await http.put(
+      Uri.parse('${globals.url}categories/$categoryId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Connection': 'keep-alive',
+        'Accept-Encoding': 'gzip, deflate, br'
+      },
+      body: jsonEncode(<String, String>{
+        'name': name
+      }),
+    ).timeout(const Duration(seconds: 90)).catchError((error) {
+      print(error);
+    });
+
+    // final response = await http.put(Uri.parse('${globals.url}categories/$categoryId'));
+    print('RB: ${response.body}');
+
+
+    if (response.statusCode == 200) {
+      log('200');
+
+
+      return 1;
+    } else {
+      log('200 NO');
+      return 0;
+    }
+  }
 }

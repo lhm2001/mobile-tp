@@ -119,8 +119,8 @@ class _MyConsultationsState extends State<MyConsultations> {
                       fillColor: const Color(0xFF00807E), // Color de fondo del botón activo
                       borderRadius: BorderRadius.circular(50.sp),
                       borderWidth: 0.5.w,
-                      selectedBorderColor: Colors.tealAccent,
-                      borderColor: Colors.tealAccent,
+                      selectedBorderColor: const Color(0xFF00807E),
+                      borderColor: const Color(0xFF00807E),
                       children: [
                         Padding(
                           padding: EdgeInsets.all(1.w),
@@ -204,7 +204,7 @@ class _MyConsultationsState extends State<MyConsultations> {
                           }
                       ),
                     ) :
-                    const Center(child: CircularProgressIndicator()),
+                    const Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00807E))),),
 
                   ],
                 )
@@ -236,7 +236,6 @@ class _MyConsultationsState extends State<MyConsultations> {
 
                           if (allSuccessful) {
                             setState(() {
-                              //fetchData();
                                myConsultations.removeWhere((consultation) => selectedItem.contains(consultation.idConsultation));
                                filterConsultations.removeWhere((consultation) => selectedItem.contains(consultation.idConsultation));
                                auxConsultations.removeWhere((consultation) => selectedItem.contains(consultation.idConsultation));
@@ -252,8 +251,7 @@ class _MyConsultationsState extends State<MyConsultations> {
                                   style: TextStyle(
                                       color: Colors.black),
                                 ),
-                                backgroundColor:
-                                Colors.tealAccent,
+                                backgroundColor: Color(0xFF00807E),
                               ),
                             );
                           }
@@ -319,7 +317,7 @@ class _MyConsultationsState extends State<MyConsultations> {
   }
 
   String getHeaderCountText(){
-    return selectedItem.isNotEmpty? "${selectedItem.length} fotos seleccionados" : "Ninguna imagen seleccionada";
+    return selectedItem.isNotEmpty? "${selectedItem.length} foto(s) seleccionada(s)" : "Ninguna imagen seleccionada";
   }
 
   void doMultiSelection(int path,consultation) {
