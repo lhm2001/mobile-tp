@@ -213,9 +213,9 @@ class _MyConsultationsState extends State<MyConsultations> {
           ),
           bottomNavigationBar: isMultiSelectionEnabled ?
             BottomAppBar(
+              height: 12.h,
             color: Color(0xFFB1D8D7),
             child: SizedBox(
-              height: 10.h,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -247,7 +247,7 @@ class _MyConsultationsState extends State<MyConsultations> {
                                 .showSnackBar(
                               const SnackBar(
                                 content: Text(
-                                  "Hubo un error al eliminar la categoría.",
+                                  "Hubo un error al eliminar la consulta.",
                                   style: TextStyle(
                                       color: Colors.black),
                                 ),

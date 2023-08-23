@@ -46,24 +46,24 @@ class _MyNotificationsState extends State<MyNotifications> {
                   },
                 ),
 
-                Container(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                    ),
-                    onPressed: () {
-                      NotificationService().showNotification(title: 'Sample',body: 'IT WORKS!');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(5.w),
-                      child: Text("PRUEBA NOTIF",style:TextStyle(
-                        //fontWeight: FontWeight.bold,
-                          fontSize: 12.sp,
-                          color: Colors.black
-                      )),
-                    ),
-                  ),
-                ),
+                // Container(
+                //   child: ElevatedButton(
+                //     style: ElevatedButton.styleFrom(
+                //       primary: Colors.white,
+                //     ),
+                //     onPressed: () {
+                //       NotificationService().showNotification(title: 'Sample',body: 'IT WORKS!');
+                //     },
+                //     child: Padding(
+                //       padding: EdgeInsets.all(5.w),
+                //       child: Text("PRUEBA NOTIF",style:TextStyle(
+                //         //fontWeight: FontWeight.bold,
+                //           fontSize: 12.sp,
+                //           color: Colors.black
+                //       )),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

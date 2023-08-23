@@ -8,6 +8,7 @@ import 'package:proyecto_tesis/login.dart';
 import 'package:proyecto_tesis/myNotifications.dart';
 import 'package:proyecto_tesis/myProfile.dart';
 import 'package:proyecto_tesis/preventiveInformation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'globals.dart' as globals;
 import 'dart:convert';
 import 'package:sizer/sizer.dart';
@@ -34,7 +35,7 @@ class MyAccount extends StatelessWidget {
                 return ListTile(
                   leading: Icon(settingsList[index].icon,color: const Color(0xFF00807E), ),
                   title: Text(settingsList[index].title),
-                  onTap: () {
+                  onTap: () async {
                     switch (index) {
                       case 0:
                         Navigator.push(
@@ -51,6 +52,9 @@ class MyAccount extends StatelessWidget {
                       case 2:
                         globals.userId=0;
                         globals.isLoggedIn = false;
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        prefs.setString('email', '');
+                        prefs.setString('password', '');
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const Login()),

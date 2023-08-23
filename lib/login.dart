@@ -62,7 +62,7 @@ class _LoginState extends State<Login> {
     String? email=prefs.getString('email');
     String? pass=prefs.getString('password');
 
-    if(email!=null && pass!=null){
+    if(email!=null && email!=''  && pass!=null && pass!=''){
 
       logged=true;
       _user= await service.login(email,pass);
