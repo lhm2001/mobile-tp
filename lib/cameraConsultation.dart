@@ -316,7 +316,7 @@ class _CameraConsultationState extends State<CameraConsultation> {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF00807E), // Aquí puedes cambiar el color
                                 ),
-                                child: Text('Tomar foto', style: TextStyle(fontSize: 10.sp)),
+                                child: Text('Tomar foto', style: TextStyle(fontSize: 10.sp,color: Colors.white)),
                               ),
 
 
@@ -325,7 +325,7 @@ class _CameraConsultationState extends State<CameraConsultation> {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF00807E), // Aquí puedes cambiar el color
                                 ),
-                                child: Text('Subir imagen', style: TextStyle(fontSize: 10.sp)),
+                                child: Text('Subir imagen', style: TextStyle(fontSize: 10.sp,color: Colors.white)),
                               ),
                             ],
                           ),
@@ -528,7 +528,7 @@ class _CameraConsultationState extends State<CameraConsultation> {
 
                                 Expanded(
                                   child: Text(
-                                    consultation!.resultDiameter == "The diameter can measure manually. If the diameter is greater than 6mm, a specialist should be consulted." ? "El diámetro puede medir manualmente. En caso de que el diámetro sea mayor a 6mm, se debe dirigir a un especialista." : "",
+                                    consultation!.resultDiameter == "The diameter can measure manually. If the diameter is greater than 6mm, a specialist should be consulted." ? "El diámetro lo puede medir manualmente. En caso de que el diámetro sea mayor a 6mm, se debe dirigir a un especialista." : "",
                                     style: TextStyle(fontSize: 12.sp),
                                     maxLines: 6,
                                     overflow: TextOverflow.ellipsis,
