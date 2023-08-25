@@ -26,6 +26,9 @@ class CompareResults extends StatelessWidget {
               title: const Text("Comparación",style: TextStyle(color: Colors.white)), // Nombre de la página que puedes cambiar dinámicamente según la página actual.
               backgroundColor: const Color(0xFF00807E),
               iconTheme: const IconThemeData(color: Colors.white),
+              actions: <Widget>[
+                Image.asset('assets/logo-nevuscheck.png', fit: BoxFit.contain),
+              ],
             ),
             body: SingleChildScrollView(
               child: Padding(
@@ -127,7 +130,7 @@ class CompareResults extends StatelessWidget {
 
                           Expanded(
                             child: Text(
-                              consultation.resultDiameter == "The diameter can be measured manually. If the diameter is greater than 6mm, a specialist should be consulted." ? "El diámetro lo puede medir manualmente. En caso de que el diámetro sea mayor a 6mm, se debe dirigir a un especialista." : "",
+                              consultation.resultDiameter == "The diameter can measure manually. If the diameter is greater than 6mm, a specialist should be consulted." ? "El diámetro lo puede medir manualmente. En caso de que el diámetro sea mayor a 6mm, se debe dirigir a un especialista." : "",
                               style: TextStyle(fontSize: 10.sp),
                               maxLines: 6,
                               overflow: TextOverflow.ellipsis,
@@ -236,7 +239,7 @@ class CompareResults extends StatelessWidget {
                           ),
 
                           Text(
-                            lastConsultation.keys.first.resultDiameter == "The diameter can be measured manually. If the diameter is greater than 6mm, a specialist should be consulted." ? "El diámetro lo puede medir manualmente. En caso de que el diámetro sea mayor a 6mm, se debe dirigir a un especialista." : "",
+                            lastConsultation.keys.first.resultDiameter == "The diameter can measure manually. If the diameter is greater than 6mm, a specialist should be consulted." ? "El diámetro lo puede medir manualmente. En caso de que el diámetro sea mayor a 6mm, se debe dirigir a un especialista." : "",
                             style: TextStyle(fontSize: 10.sp),
                           ),
                         ],

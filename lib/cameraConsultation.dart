@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:proyecto_tesis/api/consultation.dart';
 import 'package:proyecto_tesis/api/service.dart';
 import 'package:proyecto_tesis/compareResults.dart';
+import 'package:proyecto_tesis/myCategories.dart';
 import 'dart:io';
 import 'package:sizer/sizer.dart';
 import 'package:proyecto_tesis/globals.dart' as globals;
@@ -233,7 +234,10 @@ class _CameraConsultationState extends State<CameraConsultation> {
             TextButton(
               child: Text('Cancelar', style: TextStyle(fontSize: 10.sp, color: Colors.black)),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyCategories()),
+                );
               },
             ),
             ElevatedButton(
@@ -260,6 +264,9 @@ class _CameraConsultationState extends State<CameraConsultation> {
             title: const Text("Consulta",style: TextStyle(color: Colors.white)), // Nombre de la página que puedes cambiar dinámicamente según la página actual.
             backgroundColor: const Color(0xFF00807E),
             automaticallyImplyLeading: false,
+            actions: <Widget>[
+              Image.asset('assets/logo-nevuscheck.png', fit: BoxFit.contain),
+            ],
           ),
 
           body:  Column(
@@ -316,7 +323,7 @@ class _CameraConsultationState extends State<CameraConsultation> {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF00807E), // Aquí puedes cambiar el color
                                 ),
-                                child: Text('Tomar foto', style: TextStyle(fontSize: 10.sp,color: Colors.white)),
+                                child: Text('Tomar foto', style: TextStyle(fontSize: 10.sp, color: Colors.white)),
                               ),
 
 
@@ -325,7 +332,7 @@ class _CameraConsultationState extends State<CameraConsultation> {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF00807E), // Aquí puedes cambiar el color
                                 ),
-                                child: Text('Subir imagen', style: TextStyle(fontSize: 10.sp,color: Colors.white)),
+                                child: Text('Subir imagen', style: TextStyle(fontSize: 10.sp, color: Colors.white)),
                               ),
                             ],
                           ),
@@ -528,7 +535,7 @@ class _CameraConsultationState extends State<CameraConsultation> {
 
                                 Expanded(
                                   child: Text(
-                                    consultation!.resultDiameter == "The diameter can be measured manually. If the diameter is greater than 6mm, a specialist should be consulted." ? "El diámetro lo puede medir manualmente. En caso de que el diámetro sea mayor a 6mm, se debe dirigir a un especialista." : "",
+                                    consultation!.resultDiameter == "The diameter can measure manually. If the diameter is greater than 6mm, a specialist should be consulted." ? "El diámetro lo puede medir manualmente. En caso de que el diámetro sea mayor a 6mm, se debe dirigir a un especialista." : "",
                                     style: TextStyle(fontSize: 12.sp),
                                     maxLines: 6,
                                     overflow: TextOverflow.ellipsis,

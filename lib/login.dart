@@ -86,7 +86,10 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
-                  SizedBox(height: 10.h),
+                  SizedBox(
+                    height: 30.h,
+                    child: Image.asset('assets/logo-nevuscheck.png', fit: BoxFit.contain)
+                  ),
 
                   Text('Iniciar Sesión',
                     style: TextStyle(
@@ -96,7 +99,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
 
-                  SizedBox(height: 10.h),
+                  SizedBox(height: 5.h),
 
                   logged ? const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0XFFFFFFFF))) : Container(),
 
@@ -141,7 +144,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
 
-                  SizedBox(height: 7.5.h),
+                  SizedBox(height: 5.h),
 
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -167,29 +170,27 @@ class _LoginState extends State<Login> {
 
                           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const BottomNavigation()));
 
-                        }
-                        else{
-                          // _showSnackBar(context);
-                          // log('no login');
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("Contraseña incorrecta",
-                                      style: TextStyle(color: Colors.black)
-                                  ),
-                                  backgroundColor: Colors.tealAccent
-                              )
-                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text("Revisar los datos ingresados",
+                                style: TextStyle(color: Colors.black)
+                            ),
+                            backgroundColor: Colors.tealAccent,
+                          ));
                         }
                       }
                       else{
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Revisar los datos ingresados",
-                              style: TextStyle(color: Colors.black)
-                          ),
-                          backgroundColor: Colors.tealAccent,
-                        ));
+                        // _showSnackBar(context);
+                        // log('no login');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Contraseña incorrecta",
+                                    style: TextStyle(color: Colors.black)
+                                ),
+                                backgroundColor: Colors.tealAccent
+                            )
+                        );
                       }
-
 
                     },
                     child: Padding(

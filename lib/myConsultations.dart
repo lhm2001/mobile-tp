@@ -102,6 +102,9 @@ class _MyConsultationsState extends State<MyConsultations> {
             title: Text(isMultiSelectionEnabled? getHeaderCountText(): 'Mis consultas', style: TextStyle(color: Colors.white),),
             backgroundColor: const Color(0xFF00807E),
             iconTheme: const IconThemeData(color: Colors.white),
+            actions: <Widget>[
+              Image.asset('assets/logo-nevuscheck.png', fit: BoxFit.contain),
+            ],
           ),
           body: SingleChildScrollView(
             child: Padding(

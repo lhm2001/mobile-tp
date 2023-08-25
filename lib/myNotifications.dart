@@ -29,6 +29,9 @@ class _MyNotificationsState extends State<MyNotifications> {
             title: const Text("Mis Notificaciones",style: TextStyle(color: Colors.white),), // Nombre de la página que puedes cambiar dinámicamente según la página actual.
             backgroundColor: const Color(0xFF00807E),
             iconTheme: const IconThemeData(color: Colors.white),
+            actions: <Widget>[
+              Image.asset('assets/logo-nevuscheck.png', fit: BoxFit.contain),
+            ],
           ),
           body: Padding(
             padding: EdgeInsets.all(2.5.h),
