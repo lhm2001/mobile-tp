@@ -134,7 +134,7 @@ class _MyCategoriesState extends State<MyCategories> {
                       isSelected: [selectedButtonIndex == 0, selectedButtonIndex == 1, selectedButtonIndex == 2, selectedButtonIndex == 3],
                       onPressed: (index) => setFilter(index),
                       selectedColor: Colors.white,
-                      fillColor: const Color(0xFF00807E),
+                      fillColor: const Color(0xFF00807E), // Color de fondo del botón activo
                       borderRadius: BorderRadius.circular(50.sp),
                       borderWidth: 0.5.w,
                       selectedBorderColor: const Color(0xFF00807E),
@@ -191,7 +191,8 @@ class _MyCategoriesState extends State<MyCategories> {
                                         cat.idCategory ==
                                             deletedCategoryId);
                                       });
-                                    } else {
+                                    }
+                                    else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
@@ -211,47 +212,47 @@ class _MyCategoriesState extends State<MyCategories> {
                                   icon: Icons.delete,
                                   // label: 'Eliminar',
                                 ),
-
                                 SlidableAction(
                                   onPressed: (BuildContext context) {
                                     categoryName.text = auxCategoryConsultation!.keys.elementAt(index).name;
 
                                     showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) => Dialog(
-                                        backgroundColor: Color(0XFFcce5e5),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                                child:Padding(
-                                                  padding: EdgeInsets.all(1.h),
-                                                  child: TextField(
-                                                    controller: categoryName,
-                                                    decoration: const InputDecoration(
-                                                      border:InputBorder.none,
-                                                      hintText: 'Nombre de categoría',
-                                                    ),
+                                    context: context,
+                                    builder: (BuildContext context) => Dialog(
+                                      backgroundColor: Color(0XFFcce5e5),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              child:Padding(
+                                                padding: EdgeInsets.all(1.h),
+                                                child: TextField(
+                                                  controller: categoryName,
+                                                  decoration: const InputDecoration(
+                                                    border:InputBorder.none,
+                                                    hintText: 'Nombre de categoría',
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(height: 2.5.h),
-                                              ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  primary: const Color(0xFFffffff),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(10.0), // Ajusta el valor según desees
-                                                  ),
+                                            ),
+                                            SizedBox(height: 2.5.h),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                primary: const Color(0xFFffffff),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10.0), // Ajusta el valor según desees
                                                 ),
-                                                onPressed: () async {
+                                              ),
+                                              onPressed: () async {
 
+                                                if(categoryName.text.isNotEmpty){
                                                   var updateId = auxCategoryConsultation!.keys.elementAt(index).idCategory;
                                                   var result = await service.updateCategoryById(categoryName.text,updateId);
                                                   print(result);
@@ -289,23 +290,33 @@ class _MyCategoriesState extends State<MyCategories> {
                                                       ),
                                                     );
                                                   }
+                                                }
+                                                else{
+                                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                                    content: Text("Debe colocar un nombre",
+                                                        style: TextStyle(color: Colors.black)
+                                                    ),
+                                                    backgroundColor: Colors.tealAccent,
+                                                  ));
+                                                }
 
-                                                },
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(2.3.w),
-                                                  child: Text("Guardar",style:TextStyle(
-                                                    //fontWeight: FontWeight.bold,
-                                                      fontSize: 12.sp,
-                                                      color: Colors.black
-                                                  )),
-                                                ),
+
+                                              },
+                                              child: Padding(
+                                                padding: EdgeInsets.all(2.3.w),
+                                                child: Text("Guardar",style:TextStyle(
+                                                  //fontWeight: FontWeight.bold,
+                                                    fontSize: 12.sp,
+                                                    color: Colors.black
+                                                )),
                                               ),
+                                            ),
 
-                                            ],
-                                          ),
+                                          ],
                                         ),
                                       ),
-                                    );
+                                    ),
+                                  );
                                   },
                                   backgroundColor: Color(0xFF5177A1),
                                   foregroundColor: Colors.white,
@@ -319,7 +330,7 @@ class _MyCategoriesState extends State<MyCategories> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MyConsultations(categoryId: auxCategoryConsultation!.keys.elementAt(index).idCategory, categoryName: auxCategoryConsultation!.keys.elementAt(index).name)));
                               },
                               child: Card(
-                                color: Colors.white,
+                                color: const Color(0xFFf7fcfc),
                                 child: Padding(
                                   padding: EdgeInsets.all(2.w),
                                   child: Row(
@@ -367,6 +378,7 @@ class _MyCategoriesState extends State<MyCategories> {
                     const Center(
                       child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00807E))),
                     ),
+
                   ],
                 )
             ),

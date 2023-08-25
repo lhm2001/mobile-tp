@@ -151,37 +151,45 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     onPressed: () async {
-                      _user= await service.login(_email.text,_password.text);
-                      log('user: $_user');
-                      setState(() {
-                        //log('result: $_user');
-                      });
-                      if(_user!=0){
-                        globals.userId = _user;
-                        print("USERID: $_user");
-                        globals.isLoggedIn = true;
-                        globals.idNavigation = 0;
-                        fetchDataAndProcess();
+                      if(_email.text.isNotEmpty && _password.text.isNotEmpty){
+                        _user= await service.login(_email.text,_password.text);
 
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                        prefs.setString('email', _email.text);
-                        prefs.setString('password', _password.text);
+                        if(_user!=0){
+                          globals.userId = _user;
+                          print("USERID: $_user");
+                          globals.isLoggedIn = true;
+                          globals.idNavigation = 0;
+                          fetchDataAndProcess();
 
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const BottomNavigation()));
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setString('email', _email.text);
+                          prefs.setString('password', _password.text);
 
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const BottomNavigation()));
+
+                        }
+                        else{
+                          // _showSnackBar(context);
+                          // log('no login');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text("Contraseña incorrecta",
+                                      style: TextStyle(color: Colors.black)
+                                  ),
+                                  backgroundColor: Colors.tealAccent
+                              )
+                          );
+                        }
                       }
                       else{
-                        // _showSnackBar(context);
-                        // log('no login');
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text("Contraseña incorrecta",
-                                    style: TextStyle(color: Colors.black)
-                                ),
-                                backgroundColor: Colors.tealAccent
-                            )
-                        );
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Revisar los datos ingresados",
+                              style: TextStyle(color: Colors.black)
+                          ),
+                          backgroundColor: Colors.tealAccent,
+                        ));
                       }
+
 
                     },
                     child: Padding(
