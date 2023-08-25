@@ -37,14 +37,12 @@ class _MyConsultationsState extends State<MyConsultations> {
 
   int selectedButtonIndex = -1;
 
-
   bool isMultiSelectionEnabled=false;
   HashSet selectedItem = HashSet();
 
   @override
   void initState() {
     super.initState();
-
     fetchData();
   }
 
@@ -107,7 +105,6 @@ class _MyConsultationsState extends State<MyConsultations> {
           ),
           body: SingleChildScrollView(
             child: Padding(
-
                 padding: EdgeInsets.only(top: 5.w, left: 5.w, right:5.w),
                 child: Column(
                   children: [
@@ -204,18 +201,18 @@ class _MyConsultationsState extends State<MyConsultations> {
                           }
                       ),
                     ) :
-                    const Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00807E))),),
+                    const Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00807E)))),
 
                   ],
                 )
-
             ),
           ),
           bottomNavigationBar: isMultiSelectionEnabled ?
             BottomAppBar(
-              height: 12.h,
+            height: 12.h,
             color: Color(0xFFB1D8D7),
             child: SizedBox(
+              height: 10.h,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -236,13 +233,12 @@ class _MyConsultationsState extends State<MyConsultations> {
 
                           if (allSuccessful) {
                             setState(() {
-                               myConsultations.removeWhere((consultation) => selectedItem.contains(consultation.idConsultation));
-                               filterConsultations.removeWhere((consultation) => selectedItem.contains(consultation.idConsultation));
-                               auxConsultations.removeWhere((consultation) => selectedItem.contains(consultation.idConsultation));
-                               selectedItem.clear();
+                              myConsultations.removeWhere((consultation) => selectedItem.contains(consultation.idConsultation));
+                              filterConsultations.removeWhere((consultation) => selectedItem.contains(consultation.idConsultation));
+                              auxConsultations.removeWhere((consultation) => selectedItem.contains(consultation.idConsultation));
+                              selectedItem.clear();
                             });
-                          }
-                          else {
+                          } else {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(
                               const SnackBar(
@@ -255,14 +251,11 @@ class _MyConsultationsState extends State<MyConsultations> {
                               ),
                             );
                           }
-
-
                         },
-
                         icon: const Icon(Icons.delete),
                         color: const Color(0xFF00807E),
                       ),
-                      Text("Eliminar", style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold,color: const Color(0xFF00807E),)),
+                      Text("Eliminar", style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold,color: const Color(0xFF00807E))),
                     ],
                   ),
                   Column(

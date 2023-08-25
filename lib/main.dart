@@ -28,13 +28,6 @@ Future<void> main() async {
 
   tz.initializeTimeZones();
 
-  // DateTime dateTime1 = DateTime(2023, 7, 29, 20, 35);
-  // DateTime dateTime2 = DateTime(2023, 7, 29, 20, 36);
-  //
-  // NotificationService().scheduleNotification(id: 1,title: 'Scheduled Notification',body: 'Hola', scheduledNotificationDateTime: dateTime1);
-  // NotificationService().scheduleNotification(id:2,title: 'Scheduled Notification',body: 'Hola', scheduledNotificationDateTime: dateTime2);
-  //
-
   runApp(const MyApp());
 }
 

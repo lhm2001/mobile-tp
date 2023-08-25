@@ -24,52 +24,52 @@ class _PreventiveInformationState extends State<PreventiveInformation> {
           ),
           backgroundColor: Colors.white,
           body: SafeArea(
-              child: Padding(
-                padding: EdgeInsets.all(2.5.h),
-                child: SingleChildScrollView(
-                  child: ExpansionPanelList(
-                    elevation: 1,
-                    expandedHeaderPadding: EdgeInsets.all(0),
-                    expansionCallback: (int index, bool isExpanded) {
-                      setState(() {
-                        _data[index].isExpanded = true;
-                      });
-                    },
-                    children: _data.map<ExpansionPanel>((Item item) {
-                      return ExpansionPanel(
-                        backgroundColor: const Color(0xFFB1D8D7),
-                        canTapOnHeader: true,
-                        headerBuilder:
-                            (BuildContext context, bool isExpanded) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              item.headerValue,
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
-                        },
-                        body: Padding(
+            child: Padding(
+              padding: EdgeInsets.all(2.5.h),
+              child: SingleChildScrollView(
+                child: ExpansionPanelList(
+                  elevation: 1,
+                  expandedHeaderPadding: EdgeInsets.all(0),
+                  expansionCallback: (int index, bool isExpanded) {
+                    setState(() {
+                      _data[index].isExpanded = true;
+                    });
+                  },
+                  children: _data.map<ExpansionPanel>((Item item) {
+                    return ExpansionPanel(
+                      backgroundColor: const Color(0xFFB1D8D7),
+                      canTapOnHeader: true,
+                      headerBuilder:
+                          (BuildContext context, bool isExpanded) {
+                        return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            item.expandedValue,
+                            item.headerValue,
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: Colors.black,
+                              fontWeight: FontWeight.bold,
                             ),
-                            textAlign: TextAlign.justify,
                           ),
+                        );
+                      },
+                      body: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          item.expandedValue,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.justify,
                         ),
-                        isExpanded: item.isExpanded,
-                      );
-                    }).toList(),
-                  ),
+                      ),
+                      isExpanded: item.isExpanded,
+                    );
+                  }).toList(),
                 ),
               ),
+            ),
 
           ),
         );

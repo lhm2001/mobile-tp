@@ -63,7 +63,7 @@ class MoleDetail extends StatelessWidget {
                           ),
 
                           Text(
-                            consultation.resultAssymetry,
+                            consultation.resultAssymetry == 'Asymmetric' ? "Asimétrico" : "Simétrico",
                             style: TextStyle(fontSize: 12.sp),
                           ),
                         ],
@@ -103,7 +103,7 @@ class MoleDetail extends StatelessWidget {
                           ),
 
                           Text(
-                            consultation.resultColor,
+                            consultation.resultColor == "Heterogeneous" ? "Heterogéneo" : "Homogéneo",
                             style: TextStyle(fontSize: 12.sp),
                           ),
                         ],
@@ -122,9 +122,14 @@ class MoleDetail extends StatelessWidget {
                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp),
                           ),
 
-                          Text(
-                            consultation.resultDiameter,
-                            style: TextStyle(fontSize: 12.sp),
+                          Expanded(
+                            child: Text(
+                              consultation.resultDiameter == "The diameter can measure manually. If the diameter is greater than 6mm, a specialist should be consulted." ? "El diámetro puede medir manualmente. En caso de que el diámetro sea mayor a 6mm, se debe dirigir a un especialista." : "",
+                              style: TextStyle(fontSize: 12.sp),
+                              maxLines: 6,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.justify,
+                            ),
                           ),
                         ],
                       ),

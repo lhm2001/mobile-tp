@@ -29,7 +29,7 @@ class CompareResults extends StatelessWidget {
             ),
             body: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.all(1.h),
+                padding: EdgeInsets.all(2.h),
                 child: Column(
                   children: [
 
@@ -66,7 +66,7 @@ class CompareResults extends StatelessWidget {
                           ),
 
                           Text(
-                            consultation.resultAssymetry,
+                            consultation.resultAssymetry == 'Asymmetric' ? "Asimétrico" : "Simétrico",
                             style: TextStyle(fontSize: 10.sp),
                           ),
                         ],
@@ -106,7 +106,7 @@ class CompareResults extends StatelessWidget {
                           ),
 
                           Text(
-                            consultation.resultColor,
+                            consultation.resultColor == "Heterogeneous" ? "Heterogéneo" : "Homogéneo",
                             style: TextStyle(fontSize: 10.sp),
                           ),
                         ],
@@ -125,9 +125,14 @@ class CompareResults extends StatelessWidget {
                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10.sp),
                           ),
 
-                          Text(
-                            consultation.resultDiameter,
-                            style: TextStyle(fontSize: 10.sp),
+                          Expanded(
+                            child: Text(
+                              consultation.resultDiameter == "The diameter can measure manually. If the diameter is greater than 6mm, a specialist should be consulted." ? "El diámetro puede medir manualmente. En caso de que el diámetro sea mayor a 6mm, se debe dirigir a un especialista." : "",
+                              style: TextStyle(fontSize: 10.sp),
+                              maxLines: 6,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.justify,
+                            ),
                           ),
                         ],
                       ),
@@ -171,7 +176,7 @@ class CompareResults extends StatelessWidget {
                           ),
 
                           Text(
-                            lastConsultation.keys.first.resultAssymetry,
+                            lastConsultation.keys.first.resultAssymetry == 'Asymmetric' ? "Asimétrico" : "Simétrico",
                             style: TextStyle(fontSize: 10.sp),
                           ),
                         ],
@@ -211,7 +216,7 @@ class CompareResults extends StatelessWidget {
                           ),
 
                           Text(
-                            lastConsultation.keys.first.resultColor,
+                            lastConsultation.keys.first.resultColor == "Heterogeneous" ? "Heterogéneo" : "Homogéneo",
                             style: TextStyle(fontSize: 10.sp),
                           ),
                         ],
@@ -231,7 +236,7 @@ class CompareResults extends StatelessWidget {
                           ),
 
                           Text(
-                            lastConsultation.keys.first.resultDiameter,
+                            lastConsultation.keys.first.resultDiameter == "The diameter can measure manually. If the diameter is greater than 6mm, a specialist should be consulted." ? "El diámetro puede medir manualmente. En caso de que el diámetro sea mayor a 6mm, se debe dirigir a un especialista." : "",
                             style: TextStyle(fontSize: 10.sp),
                           ),
                         ],

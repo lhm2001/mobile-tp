@@ -47,14 +47,13 @@ class _LoginState extends State<Login> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   late int _user;
+
   late bool logged=false;
 
   @override
   void initState() {
     super.initState();
-
     checkCredentials();
-
   }
 
   Future<void> checkCredentials() async {
@@ -99,9 +98,7 @@ class _LoginState extends State<Login> {
 
                   SizedBox(height: 10.h),
 
-
-                  logged ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0XFFFFFFFF))) : Container(),
-
+                  logged ? const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0XFFFFFFFF))) : Container(),
 
                   Padding(
                     padding: EdgeInsets.all(2.5.h),
@@ -231,6 +228,5 @@ class _LoginState extends State<Login> {
         );
       },
     );
-
   }
 }

@@ -272,7 +272,6 @@ class service{
     }
   }
 
-
   static Future<int> deleteConsultationById(int consultationId) async {
     final response = await http.delete(Uri.parse('${globals.url}consultations/$consultationId'));
 
@@ -288,7 +287,6 @@ class service{
       return 0;
     }
   }
-
 
   static Future<int> updateCategoryById(String name,int categoryId) async {
     print('categoryId');
