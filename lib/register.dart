@@ -73,6 +73,13 @@ class _RegisterState extends State<Register> {
     }
   }
 
+  bool checkPasswordValidity(String password) {
+    RegExp passwordRegExp = RegExp(
+      r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()\-_=+{};:,<.>]).{8,}$',
+    );
+    return passwordRegExp.hasMatch(password);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Sizer(
@@ -348,7 +355,7 @@ class _RegisterState extends State<Register> {
                                 primary: Colors.white,
                               ),
                               onPressed: () async {
-                                if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty && nameController.text.isNotEmpty && lastNameController.text.isNotEmpty && isChecked){
+                                if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty && nameController.text.isNotEmpty && lastNameController.text.isNotEmpty && isChecked && checkPasswordValidity(passwordController.text)){
                                   try {
                                     _validate = await service.validateEmail(emailController.text);
                                     setState(() {
@@ -385,7 +392,7 @@ class _RegisterState extends State<Register> {
                                     backgroundColor: Colors.tealAccent,
                                   ));
                                 }
-                                else{
+                                else if(emailController.text.isEmpty || passwordController.text.isEmpty || nameController.text.isEmpty || lastNameController.text.isEmpty){
                                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                     content: Text("Revisar los datos ingresados",
                                         style: TextStyle(color: Colors.black)
@@ -393,7 +400,38 @@ class _RegisterState extends State<Register> {
                                     backgroundColor: Colors.tealAccent,
                                   ));
                                 }
-                              },
+                                else if (!checkPasswordValidity(passwordController.text)) {
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("La contraseña debe cumplir con los siguientes requisitos:",
+                                            style: TextStyle(color: Colors.black)
+                                        ),
+                                        SizedBox(height: 1.h),
+                                        Text("•Al menos 8 caracteres de longitud.",
+                                            style: TextStyle(color: Colors.black)
+                                        ),
+                                        Text("•Al menos una letra mayúscula.",
+                                            style: TextStyle(color: Colors.black)
+                                        ),
+                                        Text("•Al menos una letra minúscula.",
+                                            style: TextStyle(color: Colors.black)
+                                        ),
+                                        Text("•Al menos un número.",
+                                            style: TextStyle(color: Colors.black)
+                                        ),
+                                        Text("•Al menos un carácter especial.",
+                                            style: TextStyle(color: Colors.black)
+                                        ),
+
+                                      ],
+                                    ),
+
+                                    backgroundColor: Colors.tealAccent,
+                                  ));
+                                }
+                                 },
                               child: Padding(
                                 padding: EdgeInsets.all(2.3.w),
                                 child: Text("Registrarse",
