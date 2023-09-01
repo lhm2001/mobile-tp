@@ -5,5 +5,5 @@ int idProfileLogged = 0;
 int idNavigation = 0;
 int userId=0;
 bool notificationsEnabled=false;
-String url='http://3.144.124.129:8080/';
+String url='http://13.59.84.30:8080/';
 

@@ -235,80 +235,133 @@ class _RegisterState extends State<Register> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
+
                                         Text('Política de Privacidad',style: TextStyle(
                                             fontSize: 16.sp,fontWeight: FontWeight.bold
                                         ),),
-                                        Text('Esta política de privacidad se aplica a la aplicación móvil NEVUSCHECK que se utiliza para detectar lunares displásicos.'),
-                                        SizedBox(height: 15),
+
+                                        const Text('Esta política de privacidad se aplica a la aplicación móvil NEVUSCHECK que se utiliza para detectar lunares displásicos.'),
+
+                                        const SizedBox(height: 15),
+
                                         Text('1.Recopilación de información personal',style: TextStyle(
                                             fontSize: 12.sp,fontWeight: FontWeight.bold
                                         ),),
-                                        Text('Cuando utiliza la aplicación, podemos recopilar la siguiente información personal sobre usted:'),
-                                        SizedBox(height: 10),
-                                        Text('•Tu nombre y apellido'),
-                                        Text('•Su dirección de correo electrónico'),
-                                        Text('•Tu contraseña'),
-                                        Text('•Fotos de tus lunares'),
-                                        SizedBox(height: 10),
-                                        Text('Recopilamos esta información para brindarle los servicios de la aplicación, tales como:'),
-                                        SizedBox(height: 10),
-                                        Text('•Analizar las fotos de tus lunares para detectar lunares displásicos'),
-                                        Text('•Enviar notificaciones de seguimiento en caso activa la opción.'),
-                                        SizedBox(height: 15),
+
+                                        const Text('Cuando utiliza la aplicación, podemos recopilar la siguiente información personal sobre usted:'),
+
+                                        const SizedBox(height: 10),
+
+                                        const Text('•Tu nombre y apellido'),
+
+                                        const Text('•Su dirección de correo electrónico'),
+
+                                        const Text('•Tu contraseña'),
+
+                                        const Text('•Fotos de tus lunares'),
+
+                                        const SizedBox(height: 10),
+
+                                        const Text('Recopilamos esta información para brindarle los servicios de la aplicación, tales como:'),
+
+                                        const SizedBox(height: 10),
+
+                                        const Text('•Analizar las fotos de tus lunares para detectar lunares displásicos'),
+
+                                        const Text('•Enviar notificaciones de seguimiento en caso activa la opción.'),
+
+                                        const SizedBox(height: 15),
+
                                         Text('2.Uso de información personal',style: TextStyle(
                                           fontSize: 12.sp,fontWeight: FontWeight.bold,
                                         ),),
-                                        Text('Utilizamos su información personal para los siguientes propósitos:'),
-                                        SizedBox(height: 10),
-                                        Text('•Para proporcionarle los servicios de la aplicación.'),
-                                        Text('•Para mejorar los servicios de la aplicación.'),
-                                        Text('•Para enviarle notificaciones sobre los servicios de la aplicación.'),
-                                        Text('•Para proteger la seguridad de la aplicación.'),
-                                        Text('•Para cumplir con las leyes y regulaciones aplicables.'),
-                                        SizedBox(height: 15),
+
+                                        const Text('Utilizamos su información personal para los siguientes propósitos:'),
+
+                                        const SizedBox(height: 10),
+
+                                        const Text('•Para proporcionarle los servicios de la aplicación.'),
+
+                                        const Text('•Para mejorar los servicios de la aplicación.'),
+
+                                        const Text('•Para enviarle notificaciones sobre los servicios de la aplicación.'),
+
+                                        const Text('•Para proteger la seguridad de la aplicación.'),
+
+                                        const Text('•Para cumplir con las leyes y regulaciones aplicables.'),
+
+                                        const SizedBox(height: 15),
+
                                         Text('3.Intercambio de información personal',style: TextStyle(
                                             fontSize: 12.sp,fontWeight: FontWeight.bold
                                         ),),
-                                        Text('Podemos compartir su información personal con los siguientes terceros:'),
-                                        SizedBox(height: 10),
-                                        Text('•Nuestros proveedores de servicios externos que nos ayudan a proporcionar los servicios de la Aplicación, como la plataforma de computación en la nube Amazon Web Services (AWS).'),
-                                        Text('•Agencias encargadas de hacer cumplir la ley si así lo exige la ley.'),
-                                        SizedBox(height: 15),
+
+                                        const Text('Podemos compartir su información personal con los siguientes terceros:'),
+
+                                        const SizedBox(height: 10),
+
+                                        const Text('•Nuestros proveedores de servicios externos que nos ayudan a proporcionar los servicios de la Aplicación, como la plataforma de computación en la nube Amazon Web Services (AWS).'),
+
+                                        const Text('•Agencias encargadas de hacer cumplir la ley si así lo exige la ley.'),
+
+                                        const SizedBox(height: 15),
+
                                         Text('4.Tus derechos',style: TextStyle(
                                             fontSize: 12.sp,fontWeight: FontWeight.bold
                                         ),),
-                                        Text('Tiene los siguientes derechos con respecto a su información personal:'),
-                                        SizedBox(height: 10),
-                                        Text('•El derecho a acceder a su información personal.'),
-                                        Text('•El derecho a corregir su información personal.'),
-                                        Text('•El derecho a eliminar su información personal.'),
-                                        Text('•El derecho a oponerse al procesamiento de su información personal.'),
-                                        SizedBox(height: 15),
+
+                                        const Text('Tiene los siguientes derechos con respecto a su información personal:'),
+
+                                        const SizedBox(height: 10),
+
+                                        const Text('•El derecho a acceder a su información personal.'),
+
+                                        const Text('•El derecho a corregir su información personal.'),
+
+                                        const Text('•El derecho a eliminar su información personal.'),
+
+                                        const Text('•El derecho a oponerse al procesamiento de su información personal.'),
+
+                                        const SizedBox(height: 15),
+
                                         Text('5.Cómo contactarnos',style: TextStyle(
                                             fontSize: 12.sp,fontWeight: FontWeight.bold
                                         ),),
-                                        Text('Si tiene alguna pregunta sobre esta política de privacidad, contáctenos en: support-nevuscheck@gmail.com'),
-                                        SizedBox(height: 15),
+
+                                        const Text('Si tiene alguna pregunta sobre esta política de privacidad, contáctenos en: support-nevuscheck@gmail.com'),
+
+                                        const SizedBox(height: 15),
+
                                         Text('6.Descargo de responsabilidad',style: TextStyle(
                                             fontSize: 12.sp,fontWeight: FontWeight.bold
                                         ),),
-                                        Text('Los resultados del análisis de tus lunares mediante la aplicación no ​​son 100% fiables. Siempre debes consultar con un médico para un diagnóstico definitivo.'),
-                                        SizedBox(height: 15),
+
+                                        const Text('Los resultados del análisis de tus lunares mediante la aplicación no ​​son 100% fiables. Siempre debes consultar con un médico para un diagnóstico definitivo.'),
+
+                                        const SizedBox(height: 15),
+
                                         Text('7.Cambios a esta Política de Privacidad',style: TextStyle(
                                             fontSize: 12.sp,fontWeight: FontWeight.bold
                                         ),),
-                                        Text('Podemos actualizar esta política de privacidad de vez en cuando. La última versión de la política de privacidad siempre estará publicada en la aplicación.'),
-                                        SizedBox(height: 15),
-                                        Text('Información adicional:',style: TextStyle(
-                                            fontWeight: FontWeight.bold
-                                        ),),
-                                        Text('•Las fotos de tus lunares se almacenan en servidores de AWS.'),
-                                        Text('•AWS es una plataforma segura de computación en la nube que cumple con el Reglamento General de Protección de Datos (GDPR) de la Unión Europea.'),
-                                        Text('•Tomamos medidas para proteger la seguridad de su información personal, como el uso de cifrado y controles de acceso.'),
-                                        Text('•Solo conservaremos su información personal durante el tiempo necesario para brindarle los servicios de la aplicación.'),
 
+                                        const Text('Podemos actualizar esta política de privacidad de vez en cuando. La última versión de la política de privacidad siempre estará publicada en la aplicación.'),
 
                                         const SizedBox(height: 15),
+
+                                        const Text('Información adicional:',style: TextStyle(
+                                            fontWeight: FontWeight.bold
+                                        ),),
+
+                                        const Text('•Las fotos de tus lunares se almacenan en servidores de AWS.'),
+
+                                        const Text('•AWS es una plataforma segura de computación en la nube que cumple con el Reglamento General de Protección de Datos (GDPR) de la Unión Europea.'),
+
+                                        const Text('•Tomamos medidas para proteger la seguridad de su información personal, como el uso de cifrado y controles de acceso.'),
+
+                                        const Text('•Solo conservaremos su información personal durante el tiempo necesario para brindarle los servicios de la aplicación.'),
+
+                                        const SizedBox(height: 15),
+
                                         Align(
                                           alignment: Alignment.center,
                                           child: TextButton(
@@ -405,23 +458,30 @@ class _RegisterState extends State<Register> {
                                     content: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("La contraseña debe cumplir con los siguientes requisitos:",
+
+                                        const Text("La contraseña debe cumplir con los siguientes requisitos:",
                                             style: TextStyle(color: Colors.black)
                                         ),
+
                                         SizedBox(height: 1.h),
-                                        Text("•Al menos 8 caracteres de longitud.",
+
+                                        const Text("•Al menos 8 caracteres de longitud.",
                                             style: TextStyle(color: Colors.black)
                                         ),
-                                        Text("•Al menos una letra mayúscula.",
+
+                                        const Text("•Al menos una letra mayúscula.",
                                             style: TextStyle(color: Colors.black)
                                         ),
-                                        Text("•Al menos una letra minúscula.",
+
+                                        const Text("•Al menos una letra minúscula.",
                                             style: TextStyle(color: Colors.black)
                                         ),
-                                        Text("•Al menos un número.",
+
+                                        const Text("•Al menos un número.",
                                             style: TextStyle(color: Colors.black)
                                         ),
-                                        Text("•Al menos un carácter especial.",
+
+                                        const Text("•Al menos un carácter especial.",
                                             style: TextStyle(color: Colors.black)
                                         ),
 
@@ -431,7 +491,7 @@ class _RegisterState extends State<Register> {
                                     backgroundColor: Colors.tealAccent,
                                   ));
                                 }
-                                 },
+                              },
                               child: Padding(
                                 padding: EdgeInsets.all(2.3.w),
                                 child: Text("Registrarse",
