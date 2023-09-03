@@ -101,6 +101,16 @@ List<Item> generateItems() {
       'Un nevo displásico es un tipo de lunar que tiene características atípicas en su apariencia. Se considera una lesión precancerosa y debe ser monitoreada por un dermatólogo.',
     ),
     Item(
+      headerValue: '3. ¿Cuáles son las características de un nevus displásico?',
+      expandedValue:
+      'Las características de un nevus displásico que se deben tener en cuenta al examinar lunares sospechosos, se conocen como la regla ABCD:\n\n' +
+          'A - Asimetría: Los nevus displásicos tienden a ser asimétricos en forma, lo que significa que una mitad del lunar puede tener una apariencia diferente a la otra mitad.\n\n' +
+          'B - Borde: Los bordes de un nevus displásico suelen ser irregulares, dentados o mal definidos en lugar de tener un borde suave y uniforme.\n\n' +
+          'C - Color: Los colores en un nevus displásico pueden variar, incluyendo tonos de marrón, negro, azul o rojo. Esta variación de color es un signo de preocupación.\n\n' +
+          'D - Diámetro: Un nevus displásico a menudo tiene un diámetro mayor que un lunar común, generalmente mayor de 6 milímetros.\n\n' +
+          'Si tienes un lunar con estas características, es importante que consultes a un dermatólogo para una evaluación profesional y un posible seguimiento.',
+    ),
+    Item(
       headerValue: '2. ¿Qué es el melanoma?',
       expandedValue:
       'El melanoma es un tipo de cáncer de piel que se desarrolla a partir de los melanocitos, las células que producen el pigmento de la piel. Es el tipo más peligroso de cáncer de piel y debe ser tratado con prontitud.',
