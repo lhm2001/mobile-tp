@@ -202,19 +202,19 @@ class CompareResults extends StatelessWidget {
                                   children: [
                                     Text(lastConsultation.values.first.name, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.sp)),
 
-                                    SizedBox(width: 12.5.w),
+                                    SizedBox(width: 10.w),
 
                                     Text(lastConsultation.keys.first.createdDate.substring(0, 10),style: TextStyle(fontSize: 10.sp))
                                   ],
                                 ),
 
-                                SizedBox(width: 5.w),
+                                SizedBox(width: 2.w),
 
                                 Row(
                                   children: [
                                     Text(category, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.sp)),
 
-                                    SizedBox(width: 12.5.w),
+                                    SizedBox(width: 10.w),
 
                                     Text(consultation.createdDate.substring(0, 10),style: TextStyle(fontSize: 10.sp))
                                   ],

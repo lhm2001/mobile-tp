@@ -15,6 +15,7 @@ import 'dart:io';
 import 'package:sizer/sizer.dart';
 import 'package:proyecto_tesis/globals.dart' as globals;
 import 'api/category.dart';
+import 'bottomNavigation.dart';
 
 class CameraConsultation extends StatefulWidget {
   const CameraConsultation({Key? key}) : super(key: key);
@@ -236,7 +237,7 @@ class _CameraConsultationState extends State<CameraConsultation> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyCategories()),
+                  MaterialPageRoute(builder: (context) => BottomNavigation()),
                 );
               },
             ),
