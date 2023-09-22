@@ -193,6 +193,10 @@ class _MyCategoriesState extends State<MyCategories> {
                                         categories.removeWhere((cat) =>
                                         cat.idCategory ==
                                             deletedCategoryId);
+
+                                        auxCategoryConsultation.removeWhere((category, consultation) =>
+                                        category.idCategory == deletedCategoryId);
+
                                       });
                                     } else {
                                       ScaffoldMessenger.of(context)
